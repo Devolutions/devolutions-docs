@@ -14,3 +14,5 @@ uid: wayk-agent-requirements
 * 512 MB RAM
 * 1024x768 screen resolution
 * 25 MB storage capacity
+
+See [Performance](performance.md) for a discussion on bandwidth requirements.

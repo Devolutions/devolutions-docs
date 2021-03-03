@@ -2,6 +2,8 @@
   href: requirements.md
 - name: Configuration
   href: configuration.md
+- name: Performance
+  href: performance.md
 - name: Diagnostics
   href: diagnostics.md
 - name: Enrollment

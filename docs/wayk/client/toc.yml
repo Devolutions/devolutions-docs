@@ -1,5 +1,9 @@
 - name: Requirements
   href: requirements.md
+- name: Configuration
+  href: configuration.md
+- name: Performance
+  href: performance.md
 - name: User Login
   href: user-login.md
 - name: PowerShell Remoting
