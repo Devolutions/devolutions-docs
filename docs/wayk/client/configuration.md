@@ -2,7 +2,7 @@
 uid: wayk-client-configuration
 ---
 
-# Wayk CLient Configuration
+# Wayk Client Configuration
 
 ### Configuration using UI
 
