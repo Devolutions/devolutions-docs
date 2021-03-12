@@ -99,5 +99,6 @@ Possible values are:
 | DxgiCaptureEnabled | | Use hardware accelerated screen capture. Windows only. | `true` (*default*), `false` |
 | LoggingLevel | CONFIG_LOGGING_LEVEL | The diagnostic level to use for recording log messages | `0` (TRACE) to `5` (FATAL). `6` is OFF (no logging) |
 | LoggingFilter | CONFIG_LOGGING_FILTER | A runtime filter for log messages | |
+| PublishUniqueId | CONFIG_PUBLISH_UNIQUE_ID | Publish the Agent unique ID with the wayk.link bookmarking service | `true` (*default*), `false` |
 | UpdateCheckInterval | | The duration between automated update checks | Duration in seconds between `3600` and `604800`. Default is `86400` (Daily) |
 | UpdateRetryInterval | | The duration to wait after a failed update check to try again | Duration in seconds between `300` and `3600`. Default is `900` (15 minutes) |
