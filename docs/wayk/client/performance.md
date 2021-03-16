@@ -33,7 +33,7 @@ Possible values are:
 
 **0** Automatic (*Default*). The image is scaled (or not) depending on the display resolution of the Agent.
 
-**1** Scaled. The image is scaled to the perceived (scaled) display resolution of the Agent.
+**1** Scaled. The image is scaled to the perceived display resolution of the Agent.
 
 **2** Full. The image is the full display resolution of the Agent.
 
