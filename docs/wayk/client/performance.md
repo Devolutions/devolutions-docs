@@ -25,7 +25,19 @@ Further performance options are available. These can be configured using the [Co
 | MaxFrameRate | The maximum number of frames per second for the Agent to try and transmit | Frames per second from '1' to '30' (*default*) |
 | DesktopWidth | When using RDP virtual sessions, the requested width of the remote display. '0' accepts the default value from the Agent. | Width in pixels from '0' (*default*) to '3840' |
 | DesktopHeight | When using RDP virtual sessions, the requested height of the remote display. '0' accepts the default value from the Agent. | Height in pixels from '0' (*default*) to '2160' |
+| ScalingMode | Choose the scaling (if any) performed by the Agent on the desktop image. Windows Agents only. | See [Scaling Mode](#scaling-mode) |
+
+### Scaling Mode
+
+Possible values are:
+
+**0** Automatic (*Default*). The image is scaled (or not) depending on the display resolution of the Agent.
+
+**1** Scaled. The image is scaled to the perceived (scaled) display resolution of the Agent.
+
+**2** Full. The image is the full display resolution of the Agent.
+
 
 ## Recommended Settings
 
-For optimum performance, configure "Low" or "Medium" quality modes and disable all the "Experience" effects (desktop background, show window contents when dragging, and animate menus)/
+For optimum performance, configure "Low" or "Medium" quality modes and disable all the "Experience" effects (desktop background, show window contents when dragging, and animate menus). Ensure that "ScalingMode" is set to "Automatic" or "Scaled". If using RDP virtual sessions, select a low display resolution.
