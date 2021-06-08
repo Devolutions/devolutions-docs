@@ -66,6 +66,14 @@ The same modification can also be done at the command line:
 
 This change is necessary to obtain an [unmodified UNENCODED_URL variable in URL rewrite rules](https://blogs.iis.net/iisteam/url-rewrite-v2-1).
 
+Finally, if you do not wish to use port 443 (standard https), you will also need to set the *reverseRewriteHostInResponseHeaders* setting in the *system.webServer/proxy* section to false:
+
+![IIS Reverse Rewrite Host In Response Headers](../../images/iis_reverse_rewrite_host_in_response_headers.png)
+
+Alternatively, the same modification can be done at the command line:
+
+    %windir%\system32\inetsrv\appcmd.exe set config -section:system.webServer/proxy -reverseRewriteHostInResponseHeaders:true /commit:apphost
+
 ## IIS Site Configuration
 
 In IIS manager, right-click "Sites" and select "Add Website.."
