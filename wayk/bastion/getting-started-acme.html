@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Getting Started Guide (ACME/letsencrypt) | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Getting Started Guide (ACME/letsencrypt) | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="getting-started-acme">
+<h1 id="getting-started-guide-acmeletsencrypt">Getting Started Guide (ACME/letsencrypt)</h1>
+
+<p>This getting started shows how to obtain free TLS certificates from <a href="https://letsencrypt.org/">letsencrypt</a> using <a href="https://github.com/rmbolger/Posh-ACME">Posh-ACME</a> and the <a href="https://github.com/rmbolger/Posh-ACME/blob/master/Posh-ACME/DnsPlugins/Azure-Readme.md">Azure DNS plugin</a>. Since letsencrypt certificates are valid only for 90 days, the process should be automated, but we will cover a simple manual procedure first. If you have never used letsencrypt before, it is a good way to get started.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>For this getting started guide, we will be using:</p>
+<ul>
+<li>A domain name (buzzword.marketing)</li>
+<li>An Azure DNS zone for our domain</li>
+<li>The Azure and Posh-ACME PowerShell modules</li>
+</ul>
+<h2 id="step-1-obtain-a-domain">Step 1: Obtain a domain</h2>
+<p>If you don’t have a domain available for testing, you can buy one from your favorite registrar. In our case, we have bought the &quot;buzzword.marketing&quot; domain from <a href="https://www.namecheap.com">namecheap</a>. Before going further, make sure you have access to the account used to configure DNS servers for the domain name you intend to use.</p>
+<h2 id="step-2-create-azure-dns-zone">Step 2: Create Azure DNS zone</h2>
+<p>Refer to the following Microsoft articles to create an Azure DNS zone:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Quickstart: Create an Azure DNS zone and record using the Azure portal</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/dns/dns-delegate-domain-azure-dns">Tutorial: Host your domain in Azure DNS</a></li>
+</ul>
+<p>First, create an Azure DNS zone, and then obtain the list of the Microsoft name servers associated with it. These are the custom DNS servers that need to be configured with your domain registrar.</p>
+<p><img src="../../images/dns_zone_buzzword.png" alt="buzzword.marketing DNS zone"></p>
+<p>From the above screenshot, the custom name servers are:</p>
+<ul>
+<li>ns1-09.azure-dns.com</li>
+<li>ns2-09.azure-dns.net</li>
+<li>ns3-09.azure-dns.org</li>
+<li>ns4-09.azure-dns.info</li>
+</ul>
+<p>These custom name servers need to be configured with your domain registrar in order to manage the domain from the Azure DNS zone. The procedure is different for each registrar, but here is procedure for <a href="https://www.namecheap.com/support/knowledgebase/article.aspx/9837/46/how-to-connect-a-domain-to-a-server-or-hosting#hostingwtrd">using custom DNS servers with namecheap</a>.</p>
+<p>Once your domain is configured to be managed through the Azure DNS zone, you no longer need access to the registrar account aside from renewing your domain registration. All DNS records can be now be managed from Azure, which is perfect for performing the <a href="https://letsencrypt.org/docs/challenge-types">ACME DNS challenge</a> required to prove ownership of a given domain with letsencrypt.</p>
+<h2 id="step-3-request-a-certificate">Step 3: Request a certificate</h2>
+<p>This is where it can get tricky if you wish to automate things correctly, but there exists a rather a quick path to requesting certificates without too much trouble.</p>
+<p>Open a PowerShell prompt, then install and import the <a href="https://www.powershellgallery.com/packages/Az">Az</a> and <a href="https://www.powershellgallery.com/packages/Posh-ACME">Posh-ACME</a> PowerShell modules:</p>
+<pre><code>&gt; Install-Module -Name Az
+&gt; Install-Module -Name Posh-ACME
+&gt; Import-Module Az
+&gt; Import-Module Posh-ACME
+</code></pre>
+<p><em>Az</em> is the <a href="https://docs.microsoft.com/en-us/powershell/azure/install-az-ps">Azure PowerShell module</a>, and <a href="https://github.com/rmbolger/Posh-ACME">Posh-ACME</a> is a PowerShell module that supports the ACME protocol used by letsencrypt along with a rich set of plugins for integrating with DNS providers. In our case, we will be using the <a href="https://github.com/rmbolger/Posh-ACME/blob/master/Posh-ACME/DnsPlugins/Azure-Readme.md">Azure DNS plugin</a> because our domain is managed with an Azure DNS zone.</p>
+<p>Here is the plan: we will login to the Azure Portal using the Azure PowerShell module, grab the access token from the Az context and pass it to Posh-ACME such that it can proceed with the ACME DNS challenge. Since the access token expires every two minutes, you may have to login again if you get an expired token error. However, this procedure skips the trouble of configuring a separate account suitable for automation.</p>
+<p>From the PowerShell prompt, call <em>Connect-AzAccount</em>. If you have more than one subscriptions, you should specify which one you wish to connect to, otherwise you will get the default subscription associated with your account:</p>
+<pre><code>PS /home/mamoreau&gt; Connect-AzAccount -Subscription 'wayk staging'
+
+Account                  SubscriptionName TenantId                             Environment
+-------                  ---------------- --------                             -----------
+mamoreau@devolutions.net Wayk Staging     cf76f217-2059-4091-bb00-878429f5cc64 AzureCloud
+</code></pre>
+<p>Follow the instructions given by the <em>Connect-AzAccount</em> command.</p>
+<p>You can now go back to your PowerShell prompt and do everything that can be done through the Azure Portal, but with PowerShell instead!</p>
+<p>Copy and paste the following code snippet to grab the access token and prepare the parameters to be passed to the Azure DNS plugin:</p>
+<pre><code>$az = Get-AzContext;
+
+$token = Get-AzAccessToken
+
+$AzParams = @{
+        AZSubscriptionId=$az.Subscription.Id;
+        AZAccessToken=$token.Token;
+}
+</code></pre>
+<p>Set the $CommonName variable to the domain for which you wish to request a certificate. In our code, we will be requesting a certificate for <em>test.buzzword.marketing</em>:</p>
+<pre><code>$CommonName = &quot;test.buzzword.marketing&quot;
+</code></pre>
+<p>If this is the first time using letsencrypt, you will have to accept the terms of use. Run the following command once:</p>
+<pre><code>New-PACertificate $CommonName -AcceptTOS -Contact admin@example.com
+</code></pre>
+<p>The contact email address is optional, and is used to receive expiration notifications. Proceed immediately to requesting your certificate:</p>
+<pre><code>$Certificate = New-PACertificate $CommonName -DnsPlugin Azure -PluginArgs $AzParams
+$CertPath = Split-Path -Path $Certificate.PfxFile -Parent
+</code></pre>
+<p>If all went well, the New-PACertificate command should take about a minute to complete, with a &quot;Waiting for DNS to propagate&quot; message. If you get an error saying that the access token is expired, login again and run the token-grabbing code snippet again.</p>
+<p>The $CertPath variable now point to the local directory where all the certificate files produced by Posh-ACME are stored. The default password (when none has been specified) is <em>poshacme</em>. The file of interest we will be using is <em>fullchain.pfx</em> because it contains both the full chain and the private key, but the certificate is also available in .pem and .key format.</p>
+<p>That’s it, you now have a valid TLS certificate emitted by letsencrypt that you can use for testing! You can learn about more advanced options available from the <a href="https://github.com/rmbolger/Posh-ACME/blob/master/Tutorial.md">Posh-ACME tutorial</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Deployment Automation | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Deployment Automation | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="deployment-automation">
+<h1 id="deployment-automation">Deployment Automation</h1>
+
+<p>Once you have a Wayk Bastion server ready, the next step is to find a way to automate the process of installing, registering and configuring Wayk Agent on all of the machines you need to manage. This process is important in order to reduce the total number of manual operations that one needs to perform, especially if you have a large number of machines.</p>
+<h2 id="installation">Installation</h2>
+<p>Wayk Agent should be installed using the .msi installer on Windows, or the .pkg installer on macOS. You cannot use the standalone executable for unattended access. As such, Wayk is not an agentless product because you need to install Wayk Agent.</p>
+<p>If you already have a tool that can push the installer on your machines and install it this way, you can download the packages from our CDN and do the installation this way.</p>
+<p>If you do not have a way of pushing the installer on the remote machines but can get them to execute scripts, such as logon scripts pushed through GPO in a Windows domain, we recommend automating the downloading of the package from our CDN.</p>
+<p>The downloading and installing of the Wayk Agent package is already automated in our <a href="https://www.powershellgallery.com/packages/WaykAgent">WaykAgent PowerShell module available on PSGallery</a>. This cmdlet is compatible with PowerShell 7 (and Windows PowerShell 5.1) and works on all operating systems (Windows, macOS, Linux).</p>
+<p>If you would rather make your own script to do the same thing without using the cmdlet, simply use the PowerShell code available on GitHub as reference to roll your own.</p>
+<h2 id="enrollment">Enrollment</h2>
+<p>The enrollment token is used to authorize machines to join your Wayk Bastion and automatically register for unattended access. This token is meant to be easily embedded within scripts, such that all you need is to run a command to get Wayk Agent to register with a specific Wayk Bastion initially.</p>
+<p>To create a new enrollment token, go in &quot;Servers → Machine Registration&quot;, then click the &quot;Generate&quot;.</p>
+<p><img src="../../images/den_enrollment_token_new.png" alt="New Enrollment Token"></p>
+<p>You can set a validity period for the token, or you can also disable token expiration by setting it to <em>Never</em>. If you want to keep using a token after it has expired, there is always the possibility of renewing it.</p>
+<p>To simplify group management, you can also select in which group machines using this token will be put. If you want to automatically enroll different machines in different groups, simply create more than one token and use them appropriately.</p>
+<p>Click &quot;Generate&quot; to create the enrollment token with the desired options.</p>
+<p><img src="../../images/den_enrollment_token_id.png" alt="Enrollment Token Id"></p>
+<p>You should now see the enrollment token in the list. For the moment, the only information which you need is the token id (f762156f-9470-4dcc-9ba3-157437e465ce), which can be easily embedded in an automation script.</p>
+<h3 id="enrollment-using-token-id">Enrollment Using Token Id</h3>
+<p>After installing Wayk Agent on a machine, the <em>wayk-now</em> command-line becomes available for post-installation automation. To automatically enroll Wayk Agent to your private Wayk Bastion, call the <em>wayk-now enroll</em> command with the --token-id and --den-url parameters:</p>
+<pre><code>wayk-now enroll --token-id f762156f-9470-4dcc-9ba3-157437e465ce --den-url https://den.contoso.com
+</code></pre>
+<p>If the command is successful, Wayk Agent will be configured to point to your Wayk Bastion, and will be automatically registered for unattended access. It should now be visible in the list of registered machines in Wayk Bastion:</p>
+<p><img src="../../images/den_enrollment_machine.png" alt="Enrollment Token - Machine"></p>
+<p>It's also possible to pass the enrollment information directly to the Windows .msi at install time. See <a href="../agent/configuration.html">Agent Configuration</a>.</p>
+<h3 id="enrollment-using-token-data">Enrollment Using Token Data</h3>
+<p>While the token id is relatively short and easy to embed into a script, it has one disadvantage: it doesn’t contain information about the Wayk Bastion it belongs to. This is why the <em>--den-url</em> parameter is required when using the token id for automated enrollment.</p>
+<p>The alternative is to extract and use the full token data, such that the only thing you need is the token. However, the token data is usually much longer and usually needs to be embedded in a file to be passed to Wayk Agent.</p>
+<p>To extract the enrollment token data, click on the vertical ellipsis (⋮) button besides the enrollment token, and select &quot;View full token&quot;:</p>
+<p><img src="../../images/den_enrollment_token_actions.png" alt="Enrollment Token - Actions"></p>
+<p>The full token data will be presented for you to copy to the clipboard. This long string is a valid JSON Web Token (JWT), and its contents can be inspected by pasting it in the <a href="https://jwt.io/">jwt.io debugger tool</a>.</p>
+<p><img src="../../images/den_enrollment_token_data.png" alt="Enrollment Token - Data"></p>
+<p>For automated enrollment, save this token to a file on disk (such as <em>C:\token.txt</em>) and then use the <em>wayk-now enroll</em> command:</p>
+<pre><code>wayk-now enroll --token-file C:\token.txt
+</code></pre>
+<p>Alternatively, you can also pass the full enrollment token data at the command-line, even if it is quite long:</p>
+<pre><code>wayk-now enroll --token-data eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2Rlbi5idXp6d29yZC5tYXJrZXRpbmciLCJqdGkiOiJmNzYyMTU2Zi05NDcwLTRkY2MtOWJhMy0xNTc0MzdlNDY1Y2UiLCJpYXQiOjE1OTcwODI3NjMsImV4cCI6MTU5OTY3NDc2M30.hWaKDCHXuCHd6dXNwkvdCVKSY3eZXN7qWKKPkeSFdT4NkhT8H-p_GNXxpXuE-OTfOFislg9F1eacV5p86ef3qukgWp_qw_LJ6O8kBcq1AQccSFM7nkyB5yvXnAFbvuOJyUnGxmGG0eO9b3ihA3RVZdQFaQrn7uDyQSAnPssq1M0tli9ywcXki__IzAFI7ZXDPZPKwEw_xedADNSNfL7Gb_pnFnTsyuSOLynq7T8TPdR0G5YSG6palnRjWKPlZeEfYhYq6qu_zDSDLDLgfLFxjSxVHUGd62cSC3r1ne5Viu7GZKZIQJR2T1ljWPBfttqYjrHZMTe6JiU3-E7VUVYLVQ
+</code></pre>
+<p>However, we recommend using a file to pass the enrollment token data whenever possible, as simple copy/paste errors are easy to make with large strings like this.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Once Wayk Agent is installed and registered with Wayk Bastion, you may want to change configuration settings. This can be done through the <em>wayk-now config</em> command.</p>
+<p>These commands can be appended to your custom deployment script that installs the package, performs automated enrollment and finishes by modifying the configuration.</p>
+<p>See <a href="../agent/configuration.html">Agent Configuration</a>.</p>
+<h2 id="deployment">Deployment</h2>
+<h3 id="powershell-module">PowerShell Module</h3>
+<p>The Wayk Agent can be installed and configured using the <code>WaykAgent</code> PowerShell module, making it easy to write a custom script for deployment automation.</p>
+<pre><code class="lang-powershell">Install-Module -Name WaykAgent -Scope AllUsers -Force
+Import-Module -Name WaykAgent
+</code></pre>
+<p>Install Wayk Agent quietly:</p>
+<pre><code class="lang-powershell">Install-WaykAgent -Quiet
+</code></pre>
+<p>Register Wayk Agent with Wayk Bastion:</p>
+<pre><code class="lang-powershell">Register-WaykAgent `
+    -DenUrl &quot;https://bastion.ad.it-help.ninja&quot; `
+    -TokenId &quot;1be20ccc-7714-4bb7-b88a-a8a6a873f653&quot;
+</code></pre>
+<p>You can find additional commands exposed by the <code>WaykAgent</code> PowerShell module using the <code>Get-Command -Module WaykAgent</code>.</p>
+<h3 id="custom-executable">Custom Executable</h3>
+<p>The Wayk Agent can be deployed using a one-click custom executable preconfigured to install, configure and register Wayk Agent with Wayk Bastion.</p>
+<p>Install the <code>WaykCustomExecutable</code> PowerShell module:</p>
+<pre><code class="lang-powershell">Install-Module -Name WaykCustomExecutable -Scope AllUsers
+Import-Module -Name WaykCustomExecutable
+</code></pre>
+<p>Install the <a href="https://www.7-zip.org/">7-zip command-line tool</a> manually or using chocolatey (<code>choco install 7zip -y</code>). Make sure that the '7z' executable can be found in the system PATH:</p>
+<pre><code class="lang-powershell">PS &gt; where.exe 7z
+C:\ProgramData\chocolatey\bin\7z.exe
+</code></pre>
+<p>The custom executable requires the following parameters:</p>
+<ul>
+<li>DenUrl: Wayk Bastion server URL (https)</li>
+<li>TokenId: Machine registration token id</li>
+</ul>
+<p>The <code>BrandingFile</code> parameter is optional, but if you used the white-label editor, the resulting branding.zip file can be exported using the &quot;save&quot; button:</p>
+<p><img src="../../images/wayk_export_branding_file.png" alt="Wayk Export branding file"></p>
+<p>Choose a directory in which to put all the files, here I used &quot;C:\shared&quot; and made it a network share for easy distribution on the local network. Run the following command to generate your first custom executable:</p>
+<pre><code class="lang-powershell">New-WaykCustomExecutable `
+    -DenUrl &quot;https://bastion.ad.it-help.ninja&quot; `
+    -TokenId &quot;1be20ccc-7714-4bb7-b88a-a8a6a873f653&quot; `
+    -BrandingFile &quot;.\branding.zip&quot; `
+    -DestinationPath &quot;.&quot; `
+    -DestinationName &quot;ItHelpAgent&quot; `
+    -Architecture &quot;x64&quot; `
+    -EmbedMsi $true
+</code></pre>
+<p>The custom executable generation process and resulting files should look like this:</p>
+<p><img src="../../images/wayk_custom_executable.png" alt="Wayk Custom Executable"></p>
+<p>The new &quot;ItHelpAgent.exe&quot; custom executable is now ready to be deployed to machines for a one-click installation.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

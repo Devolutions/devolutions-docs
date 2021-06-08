@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Getting Started Guide (Argo Tunnel) | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Getting Started Guide (Argo Tunnel) | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="getting-started-argo">
+<h1 id="getting-started-guide-argo-tunnel">Getting Started Guide (Argo Tunnel)</h1>
+
+<p>This getting started guide provides instructions for setting up a one-time Wayk Bastion demo environment using a <a href="https://blog.cloudflare.com/a-free-argo-tunnel-for-your-next-project/">free Cloudflare Argo tunnel</a> for external access.</p>
+<h2 id="step-1-launch-wayk-bastion-for-localhost-access-only">Step 1: Launch Wayk Bastion for localhost access only</h2>
+<p>Open a PowerShell terminal and load the <code>WaykBastion</code> module. Create a new directory for your Wayk Bastion configuration files and move into it. Create a new configuration using your external URL and &quot;windjammer.local&quot; as the realm, then start Wayk Bastion:</p>
+<pre><code>$ Import-Module WaykBastion
+$ mkdir ~/bastion-test
+$ cd ~/bastion-test
+$ New-WaykBastionConfig -Realm windjammer.local -ExternalUrl http://localhost:4000
+$ Start-WaykBastion
+</code></pre>
+<p>The realm is a domain name for your Wayk Bastion, very similar to a Windows Active Directory domain name, but it does not need to be a valid DNS domain name. In this case, we use <code>windjammer.local</code> for a fictional company called &quot;Windjammer&quot;.</p>
+<p>Do not open <a href="http://localhost:4000">http://localhost:4000</a> in a browser yet. We will access it through the Argo tunnel instead. We just need Wayk Bastion to be running first for the Argo tunnel to be opened.</p>
+<p>Leave this terminal open: we will come back to it later.</p>
+<h2 id="step-2-create-free-argo-tunnel-for-external-access">Step 2: Create free Argo tunnel for external access</h2>
+<p><a href="https://developers.cloudflare.com/argo-tunnel/downloads/">Download</a> the <code>cloudflared</code> executable for your platform to a known path</p>
+<p>Open a new terminal and move to the directory where the <code>cloudflared</code> executable is located. Then, confirm that the tool can be found at command-line:</p>
+<pre><code>$ cloudflared --version
+cloudflared version 2019.12.0 (built 2019-12-19-2246 UTC)
+</code></pre>
+<p>Create a free Argo tunnel pointing to &quot;http://localhost:4000&quot; and wait for it to become ready:</p>
+<pre><code>$ cloudflared tunnel --url http://localhost:4000
+</code></pre>
+<p>Search within the terminal output for your trycloudflare.com generated URL. It should look like this:</p>
+<pre><code>INFO[0002] +--------------------------------------------------------+  connectionID=0
+INFO[0002] |  Your free tunnel has started! Visit it:               |  connectionID=0
+INFO[0002] | https://wayk-bastion-demo-test.trycloudflare.com       |  connectionID=0
+INFO[0002] +--------------------------------------------------------+  connectionID=0
+</code></pre>
+<p>This terminal needs to remain open to keep the Argo tunnel active.</p>
+<p>The free tunnel URL changes every time and is composed of 4 random words, but this is fine as we are using this for a one-time Wayk Bastion demo environment. You will get a different URL every time you create a free Argo tunnel, unless you register for the <a href="https://developers.cloudflare.com/argo-tunnel/quickstart/">paid service</a>.</p>
+<p>For the purpose of this guide, the external URL is &quot;https://wayk-bastion-demo-test.trycloudflare.com&quot;, but you will need to replace it with the one you obtained when following these instructions.</p>
+<h2 id="step-3-launch-wayk-bastion-using-the-argo-tunnel-external-url">Step 3: Launch Wayk Bastion using the Argo tunnel external URL</h2>
+<p>Now that we have launched the Argo tunnel, HTTP requests to &quot;https://wayk-bastion-demo-test.trycloudflare.com&quot; will be automatically redirected to &quot;http://localhost:4000&quot;, with SSL/TLS certificates
+automatically handled by Cloudflare.</p>
+<p>Go back to the PowerShell terminal where Wayk Bastion was started. Stop Wayk Bastion, modify the external URL and start Wayk Bastion again.</p>
+<pre><code>$ Stop-WaykBastion
+$ Set-WaykBastionConfig -ExternalUrl https://wayk-bastion-demo-test.trycloudflare.com
+$ Start-WaykBastion
+</code></pre>
+<p>That’s it! You should now be able to open the external URL in a browser and see a login page.</p>
+<h2 id="step-4-complete-initial-configuration-from-wayk-bastion-web-ui">Step 4: Complete initial configuration from Wayk Bastion Web UI</h2>
+<p>Now that Wayk Bastion is running and available externally through an Argo tunnel, you can proceed to creating a first admin user.</p>
+<p>Open your external URL (&quot;https://wayk-bastion-demo-test.trycloudflare.com&quot;) in a browser. In a fresh installation, you can log in using the &quot;wayk-admin&quot; username and &quot;wayk-admin&quot; password, after which you will be asked to create your first admin user.</p>
+<p><img src="../../images/den_initial_login.png" alt="Wayk Bastion initial login"></p>
+<p>For the purpose of this guide, we will create the user &quot;admin&quot; with the password &quot;admin123!&quot;. All passwords for test purposes will be the same as the username with &quot;123!&quot; appended to it.</p>
+<p><img src="../../images/den_initial_admin.png" alt="Wayk Bastion initial admin"></p>
+<p>If you do not have a fresh database and wish to reset it, you can stop the Wayk Bastion, run &quot;docker rm den-mongo&quot; and &quot;den volume rm den-mongodata&quot; and start the Wayk Bastion.</p>
+<p>Once logged in, click Users from the left navigation menu:</p>
+<p><img src="../../images/den_user_list_admin.png" alt="Wayk Bastion user list"></p>
+<p>In the top right corner, click &quot;Add&quot; to create a user called &quot;David Ford&quot; with username &quot;dford&quot; and password &quot;dford123!&quot;:</p>
+<p><img src="../../images/den_add_user_dford.png" alt="Wayk Bastion add user dford"></p>
+<p>In the top right corner, click &quot;Add&quot; to create a user called &quot;Robert Young&quot; with username &quot;ryoung&quot; and password &quot;ryoung123!&quot;:</p>
+<p><img src="../../images/den_add_user_ryoung.png" alt="Wayk Bastion add user ryoung"></p>
+<p>Your list of users should now look like this:</p>
+<p><img src="../../images/den_user_list_test.png" alt="Wayk Bastion user list"></p>
+<p>Click on the vertical ellipsis (⋮) button to the right of user &quot;dford&quot; to show a contextual action menu, then click &quot;Manage role&quot;.</p>
+<p><img src="../../images/den_user_action_menu.png" alt="Wayk Bastion user action menu"></p>
+<p>From the list of available roles, select &quot;Machine contributor&quot; then click the <em>+</em> sign to add the role to the current user.</p>
+<p><img src="../../images/den_user_role_dford_machine_contributor.png" alt="Wayk Bastion - dford Machine Contributor user role"></p>
+<p>This role is required to register new unattended machines in Wayk Bastion, so you may want to perform the same operation for user &quot;ryoung&quot;.</p>
+<p>In a regular deployment, we would need to add a valid Wayk Bastion Client Access License (CAL) in Wayk Bastion and assign it to technicians using Wayk Client. However, if you deploy Wayk Bastion using a <a href="https://developers.cloudflare.com/argo-tunnel/trycloudflare/">free cloudflare Argo tunnel</a> (limited to *.trycloudflare.com URLs), a special demo mode is activated where Wayk Bastion simulates having a site license configured. This means you can follow this guide without requesting a Wayk Bastion trial.</p>
+<p>You are now ready to try connecting Wayk Client to your Wayk Bastion with your test users.</p>
+<h2 id="step-5-configure-a-windows-machine-for-unattended-access">Step 5: Configure a Windows machine for unattended access</h2>
+<p>For the purpose of this guide, this machine will be called &quot;DFORD-PC&quot;.</p>
+<p>On a Windows machine, install <a href="https://wayk.devolutions.net/home/download">Wayk Agent</a> using the .msi installer.</p>
+<p>Once installed, launch Wayk Agent, then click File → Options from the menu of the main window.</p>
+<p>Click &quot;Unlock&quot; at the bottom left of the Options window to elevate permissions and allow modifications to settings affecting the Wayk Agent unattended service.</p>
+<p>In the &quot;Connectivity&quot; section, change the &quot;Wayk Bastion Server Url&quot; value to your Wayk Bastion external URL (<a href="https://wayk-bastion-demo-test.trycloudflare.com">https://wayk-bastion-demo-test.trycloudflare.com</a>) and click OK to apply the changes.</p>
+<p><img src="../../images/now_den_server_url.png" alt="Wayk Agent Options - Wayk Bastion Server URL"></p>
+<p>The Wayk Agent main window status bar should show a red circle for a few seconds, then it should go back to green when it has connected to the new Wayk Bastion.</p>
+<p>Go back to the &quot;Connectivity&quot; section of the Options window and unlock it again. Under &quot;Wayk Bastion User&quot;, you should now see a &quot;Log in&quot; link.</p>
+<p>Click &quot;Log in&quot; to open the Wayk Bastion login page with the default system browser. Enter &quot;dford&quot; as the username and &quot;dford123!&quot; as the password, then click Continue.</p>
+<p><img src="../../images/now_den_login_user_dford.png" alt="Wayk Bastion User Login"></p>
+<p>You should now see a login success page:</p>
+<p><img src="../../images/now_den_login_success.png" alt="Wayk Bastion User Login Success"></p>
+<p>Close the browser and come back to the Wayk Agent Options window. It should now show the user &quot;dford&quot; as logged in to Wayk Bastion:</p>
+<p><img src="../../images/now_den_server_user_dford_unregistered.png" alt="Wayk Agent Options - Wayk Bastion User"></p>
+<p>Last but not least, click &quot;Register&quot; to register the machine for unattended access.</p>
+<p><img src="../../images/now_den_server_user_dford_registered.png" alt="Wayk Agent Options - Wayk Bastion User"></p>
+<p>To verify that the machine was correctly registered, go back to the Wayk Bastion Web UI and go in the &quot;Machines&quot; section. Your machine should now be listed:</p>
+<p><img src="../../images/den_unattended_machine_list.png" alt="Wayk Bastion - Unattended Machine List"></p>
+<h2 id="step-6-connect-to-the-windows-machine-using-a-wayk-client">Step 6: Connect to the Windows machine using a Wayk Client</h2>
+<p>On another machine, install Wayk Client, and follow the instructions of the previous step for the Wayk Bastion configuration, with the exception of the unattended machine registration which is not required. When logging in, use &quot;ryoung&quot; as the username and &quot;ryoung123!&quot; as the password.</p>
+<p>For the purpose of this guide, this machine will be called &quot;RYOUNG-PC&quot;.</p>
+<p>At this point, you should be able to see both machines connected to the Wayk Bastion in the &quot;Connections&quot; section:</p>
+<p><img src="../../images/den_connection_list_test.png" alt="Wayk Bastion - Connection List"></p>
+<p>Each machine is shown as connected twice, because the unattended service and the Wayk Client make separate connections to the Wayk Bastion.</p>
+<p>From the connection list, we can see that the target ID of &quot;DFORD-PC&quot; is &quot;430515&quot;. This target ID is also shown in the Wayk Client main window on DFORD-PC in the &quot;Source ID&quot; field.</p>
+<p>On RYOUNG-PC, launch Wayk Client, type &quot;430515&quot; in the &quot;Target ID&quot; field and click &quot;Connect&quot;:</p>
+<p><img src="../../images/now_connect_dford_target.png" alt="Wayk Client - connecting to dford"></p>
+<p>At the login prompt, select &quot;Secure Remote Delegation (SRD)&quot; and enter a valid system username + password for the target machine (&quot;DFORD-PC&quot;).</p>
+<p><img src="../../images/now_connect_dford_login.png" alt="Wayk Client - dford user login"></p>
+<p>Once connected, you should now be able to see your active session in the &quot;Sessions&quot; section of the Wayk Bastion Web UI:</p>
+<p><img src="../../images/den_session_list_test.png" alt="Wayk Bastion - Connection List"></p>
+<p>This list contains both current and past sessions for monitoring and auditing purposes.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Wayk Client Performance | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Wayk Client Performance | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="wayk-client-performance">
+<h1 id="wayk-client-performance">Wayk Client Performance</h1>
+
+<h2 id="performance-options">Performance Options</h2>
+<p>Several options are available that affect the performance and experience of the connection.</p>
+<p><img src="../../images/wayk_client_performance.png" alt="Wayk Client - Performance"></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Setting</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Quality mode</td>
+<td style="text-align: left;">Low, medium (default) or high. Higher quality provides a better image quality, but performance will be worse.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Preferred codec</td>
+<td style="text-align: left;">The codec to use for image compression. JPEG and GFWX are tuned to provide similar performance characteristics at the equivalent quality modes.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Display deskop wallpaper</td>
+<td style="text-align: left;">Disable to replace desktop wallpaper on the Agent with a blank background. Windows Agents only.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Show window contents when dragging</td>
+<td style="text-align: left;">Disable to prevent window contents from being rendered during drag operations. Windows Agents only.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Animate menus</td>
+<td style="text-align: left;">Disable to turn off animation effects on menus. Windows Agents only.</td>
+</tr>
+</tbody>
+</table>
+<p>Further performance options are available. These can be configured using the <a href="configuration.html">Command Line</a>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Setting Name</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: right;">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">MaxFrameRate</td>
+<td style="text-align: left;">The maximum number of frames per second for the Agent to try and transmit</td>
+<td style="text-align: right;">Frames per second from '1' to '30' (<em>default</em>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">DesktopWidth</td>
+<td style="text-align: left;">When using RDP virtual sessions, the requested width of the remote display. '0' accepts the default value from the Agent.</td>
+<td style="text-align: right;">Width in pixels from '0' (<em>default</em>) to '3840'</td>
+</tr>
+<tr>
+<td style="text-align: left;">DesktopHeight</td>
+<td style="text-align: left;">When using RDP virtual sessions, the requested height of the remote display. '0' accepts the default value from the Agent.</td>
+<td style="text-align: right;">Height in pixels from '0' (<em>default</em>) to '2160'</td>
+</tr>
+<tr>
+<td style="text-align: left;">ScalingMode</td>
+<td style="text-align: left;">Choose the scaling (if any) performed by the Agent on the desktop image. Windows Agents only.</td>
+<td style="text-align: right;">See <a href="#scaling-mode">Scaling Mode</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="scaling-mode">Scaling Mode</h3>
+<p>Possible values are:</p>
+<p><strong>0</strong> Automatic (<em>Default</em>). The image is scaled (or not) depending on the display resolution of the Agent.</p>
+<p><strong>1</strong> Scaled. The image is scaled to the perceived display resolution of the Agent.</p>
+<p><strong>2</strong> Full. The image is the full display resolution of the Agent.</p>
+<h2 id="recommended-settings">Recommended Settings</h2>
+<p>For optimum performance, configure &quot;Low&quot; or &quot;Medium&quot; quality modes and disable all the &quot;Experience&quot; effects (desktop background, show window contents when dragging, and animate menus). Ensure that &quot;ScalingMode&quot; is set to &quot;Automatic&quot; or &quot;Scaled&quot;. If using RDP virtual sessions, select a low display resolution.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

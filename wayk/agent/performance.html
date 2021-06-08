@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Wayk Agent Performance | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Wayk Agent Performance | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="wayk-agent-performance">
+<h1 id="wayk-agent-performance">Wayk Agent Performance</h1>
+
+<h2 id="performance-metrics">Performance Metrics</h2>
+<p>The performance of the peer-to-peer connection to the Wayk Agent is largely driven by two factors: capture performance (the speed that updates can be captured), and network speed (the speed that updates can be delivered).</p>
+<h3 id="capture-performance">Capture Performance</h3>
+<p>On Windows 8 and newer, the screen is captured using hardware accelerated DirectX. This is at least 4-5x faster than the fallback software screen capture (GDI). It's possible to disable hardware accelerated captured by setting <code>DXGICaptureEnabled</code> to <code>false</code> (see <a class="xref" href="configuration.html">Configuration</a>).</p>
+<p>Only the updated portions of the screen are transmitted to the client, and only a single display is transmitted at one time.</p>
+<p>Capture performance can be affected by the connecting client; see <a class="xref" href="../client/performance.html">Client Performance</a>.</p>
+<h3 id="network-performance">Network Performance</h3>
+<p>Network performance depends greatly on workload and the number of full-screen updates that must be transmitted. Watching a full-screen video generates far more data than interacting with a terminal or file browsing. The following recommendations are based on JPEG/Low quality and are a guideline only.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Agent Screen Resolution</th>
+<th style="text-align: center;">Size of full screen update (JPEG/Low)</th>
+<th style="text-align: center;">Recommended upstream bandwidth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">640x480 (480p)</td>
+<td style="text-align: center;">30KB</td>
+<td style="text-align: center;">1Mbps</td>
+</tr>
+<tr>
+<td style="text-align: center;">1280x720 (720p)</td>
+<td style="text-align: center;">95KB</td>
+<td style="text-align: center;">3Mbps</td>
+</tr>
+<tr>
+<td style="text-align: center;">1440x900</td>
+<td style="text-align: center;">135KB</td>
+<td style="text-align: center;">5Mbps</td>
+</tr>
+<tr>
+<td style="text-align: center;">1920x1080</td>
+<td style="text-align: center;">210KB</td>
+<td style="text-align: center;">10Mbps</td>
+</tr>
+<tr>
+<td style="text-align: center;">3840x2160 (2160p)</td>
+<td style="text-align: center;">850KB</td>
+<td style="text-align: center;">25Mbps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="performance-tuning">Performance Tuning</h3>
+<p>To achive acceptable performance, make sure you choose a screen resolution that is achievable with the available bandwidth and configure the client performance settings according to recommendations. When using RDP virtual sessions, it's possible for the connecting client to request a specific screen resolution. See  <a class="xref" href="../client/performance.html">Client Performance</a>.</p>
+<p>If the amount of data transmitted by the Agent is too high for the available bandwidth, the connection may be saturated and become laggy. The Agent will transmit frames as fast as it can capture them (which typically might be 8-15fps on modern hardware; or even higher at low resolutions). In this case, the connecting client can request a lower framerate from the Agent. See <a class="xref" href="../client/performance.html">Client Performance</a>. Start at 6fps and work down to 1fps until you find an acceptable compromise.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

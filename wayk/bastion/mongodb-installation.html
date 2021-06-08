@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MongoDB Installation | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MongoDB Installation | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="mongodb-installation">
+<h1 id="mongodb-installation">MongoDB Installation</h1>
+
+<p>By default, the Wayk Bastion PowerShell module creates MongoDB container and a Docker volume to store its data. While this may be good enough for most, a regular MongoDB installation is preferable, especially if high availability is required.</p>
+<h2 id="mongodb-server">MongoDB Server</h2>
+<p>Download the <a href="https://www.mongodb.com/try/download/community">MongoDB .msi installer for Windows</a>.</p>
+<p><img src="../../images/mongo_windows_download.png" alt="MongoDB download"></p>
+<p>Launch the .msi installer, then click Next.</p>
+<p><img src="../../images/mongo_windows_installer_1.png" alt="MongoDB Windows installer 1"></p>
+<p>Accept the license agreement, then click Next.</p>
+<p><img src="../../images/mongo_windows_installer_2.png" alt="MongoDB Windows installer 2"></p>
+<p>Leave the default options, then click Next.</p>
+<p><img src="../../images/mongo_windows_installer_3.png" alt="MongoDB Windows installer 3"></p>
+<p>If you wish to install MongoDB Compass, check &quot;Install MongoDB Compass&quot;, then click Next. While it is a very convenient MongoDB GUI, it can take several minutes to install.</p>
+<p><img src="../../images/mongo_windows_installer_4.png" alt="MongoDB Windows installer 4"></p>
+<p>Click Install to begin the installation.</p>
+<p><img src="../../images/mongo_windows_installer_5.png" alt="MongoDB Windows installer 5"></p>
+<p>Wait for the installation to complete. If you selected MongoDB Compass, it will take a few minutes, so be patient.</p>
+<p><img src="../../images/mongo_windows_installer_6.png" alt="MongoDB Windows installer 6"></p>
+<p>Click Finish to complete the installation.</p>
+<p><img src="../../images/mongo_windows_installer_7.png" alt="MongoDB Windows installer 7"></p>
+<p>That's it, you should now have a &quot;MongoDB&quot; system service started automatically, with files stored under &quot;C:\Program Files\MongoDB\Server\4.4\bin&quot;.</p>
+<h3 id="network-configuration">Network Configuration</h3>
+<p>Once the MongoDB server is installed, a few configuration settings need to be tweaked to make it usable from the containers. Open the mongod.cfg configuration file located inside the 'bin' directory of the MongoDB server with a text editor, <a href="https://focusedforsuccess.com/how-do-i-make-mongodb-listen-on-all-interfaces">then look for the following section</a>:</p>
+<pre><code># network interfaces
+net:
+  port: 27017
+  bindIp: 127.0.0.1
+</code></pre>
+<p>Change 'bindIp: 127.0.0.1' to 'bindIpAll: true', then save the changes:</p>
+<pre><code># network interfaces
+net:
+  port: 27017
+  bindIpAll: true
+</code></pre>
+<p>Restart the MongoDB service for the changes to be applied:</p>
+<pre><code class="lang-powershell">Restart-Service MongoDB
+</code></pre>
+<p>This change is necessary because Windows container use a special network interface to communicate with the host.</p>
+<h2 id="mongodb-tools">MongoDB tools</h2>
+<p>In order to perform MongoDB management on the host, you will need to install the <a href="https://docs.mongodb.com/database-tools/installation/">MongoDB management tools</a>.</p>
+<h3 id="chocolatey">chocolatey</h3>
+<p>You can install the MongoDB database tools with chocolatey:</p>
+<pre><code class="lang-powershell">choco install mongodb-database-tools
+</code></pre>
+<p>This is the recommended installation method, as it automatically adds to the tools to the system PATH.</p>
+<h3 id="msi-installer">.msi installer</h3>
+<p>Download the <a href="https://www.mongodb.com/try/download/database-tools">.msi installer</a> or equivalent package for your platform:</p>
+<p><img src="../../images/mongo_windows_tools.png" alt="MongoDB Windows Tools"></p>
+<p>Once installed, the tools should be located in directory that looks like &quot;C:\Program Files\MongoDB\Tools\100\bin&quot;. You will need to add it to your system PATH before invoking the tools.</p>
+<h2 id="migrating-to-an-external-database">Migrating to an external database</h2>
+<p>If you have been using the internal database automatically created as a Windows container, follow these steps to migrate your data and switch to the new MongoDB database server.</p>
+<pre><code class="lang-powershell">Enter-WaykBastion -ChangeDirectory
+Stop-WaykBastion
+$BackupFile = &quot;bastion-backup-$(Get-Date -Format 'FileDateUniversal').tgz&quot;
+Backup-WaykBastionData -BackupPath &quot;.\${BackupFile}&quot;
+</code></pre>
+<p>Make sure that the backup file was correctly created:</p>
+<pre><code class="lang-powershell">PS &gt; Get-Item $BackupFile
+
+
+    Directory: C:\ProgramData\Devolutions\Wayk Bastion
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        11/6/2020  12:54 PM          40254 bastion-backup-20201106Z.tgz
+</code></pre>
+<p>Then make sure that the 'mongorestore' command is available on the host:</p>
+<pre><code class="lang-powershell">PS &gt; [bool]$(Get-Command mongorestore)
+True
+</code></pre>
+<p>If the command cannot be found, install the MongoDB database tools and modify your system PATH environment variable to include them.</p>
+<p>We are now ready to try restoring the database contents into the new MongoDB database server running on the host. Make sure that the MongoDB system service is up and running:</p>
+<pre><code class="lang-powershell">PS &gt; Get-Service MongoDB
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  MongoDB            MongoDB Server (MongoDB)
+</code></pre>
+<p>Run the 'mongorestore' command using the previous backup file, and the destination MongoDB server:</p>
+<pre><code class="lang-powershell">mongorestore --drop --gzip --archive=$BackupFile --uri mongodb://localhost:27017
+</code></pre>
+<p>While 'localhost' works on the host, it won't work inside containers: instead, you need to use the explicit host name or IP address of the MongoDB host. We will use the hostname 'MongoHost' but it needs to be replaced by the real name of your host to work within Wayk Bastion containers:</p>
+<pre><code class="lang-powershell">$MongoHost = &quot;MongoHost&quot;
+Stop-WaykBastion
+Set-WaykBastionConfig -MongoExternal $True -MongoUrl &quot;mongodb://${MongoHost}:27017&quot;
+Start-WaykBastion
+</code></pre>
+<p>If the 'den-mongo' container was not stopped prior to the configuration change, it may still be running. You can stop it with &quot;docker stop den-mongo&quot; if it is the case. If everything worked well, all containers expect 'den-mongo' should be up and running.</p>
+<p>If some containers failed to started due to MongoDB connection errors, verify the following:</p>
+<ol>
+<li>The MongoUrl parameter points to a reachable host where the MongoDB server is running</li>
+<li>The MongoDB server configuration file (mongod.cfg) was modified with 'bindIpAll: true'</li>
+<li>The firewall is not blocking connections on TCP/27017 in between containers and the host</li>
+</ol>
+<p>Otherwise, congratulations: Wayk Bastion is now correctly configured to use an external MongoDB server!</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

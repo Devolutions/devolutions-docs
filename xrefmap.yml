@@ -1,0 +1,102 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: database-management
+  name: Database Management
+  href: wayk/bastion/database-management.html
+- uid: deployment-automation
+  name: Deployment Automation
+  href: wayk/bastion/deployment-automation.html
+- uid: gateway-getting-started
+  name: Getting Started
+  href: gateway/getting-started.html
+- uid: gateway-index
+  name: Devolutions Gateway
+  href: gateway/index.html
+- uid: getting-started-acme
+  name: Getting Started Guide (ACME/letsencrypt)
+  href: wayk/bastion/getting-started-acme.html
+- uid: getting-started-argo
+  name: Getting Started Guide (Argo Tunnel)
+  href: wayk/bastion/getting-started-argo.html
+- uid: getting-started-azure
+  name: Getting Started Guide (Azure VM)
+  href: wayk/bastion/getting-started-azure.html
+- uid: iis-deployment
+  name: IIS Deployment
+  href: wayk/bastion/iis-deployment.html
+- uid: mongodb-installation
+  name: MongoDB Installation
+  href: wayk/bastion/mongodb-installation.html
+- uid: user-management
+  name: User Management
+  href: wayk/bastion/user-management.html
+- uid: wayk-active-directory
+  name: Active Directory Integration
+  href: wayk/bastion/active-directory.html
+- uid: wayk-agent-configuration
+  name: Wayk Agent Configuration
+  href: wayk/agent/configuration.html
+- uid: wayk-agent-diagnostics
+  name: Wayk Agent Diagnostics
+  href: wayk/agent/diagnostics.html
+- uid: wayk-agent-enrollment
+  name: Wayk Agent Enrollment
+  href: wayk/agent/enrollment.html
+- uid: wayk-agent-index
+  name: Wayk Agent Overview
+  href: wayk/agent/index.html
+- uid: wayk-agent-known-issues
+  name: Wayk Agent Known Issues
+  href: wayk/agent/known-issues.html
+- uid: wayk-agent-performance
+  name: Wayk Agent Performance
+  href: wayk/agent/performance.html
+- uid: wayk-agent-requirements
+  name: Wayk Agent Requirements
+  href: wayk/agent/requirements.html
+- uid: wayk-bastion-index
+  name: Wayk Bastion Overview
+  href: wayk/bastion/index.html
+- uid: wayk-client-configuration
+  name: Wayk Client Configuration
+  href: wayk/client/configuration.html
+- uid: wayk-client-index
+  name: Wayk Client Overview
+  href: wayk/client/index.html
+- uid: wayk-client-licensing
+  name: Wayk Client Licensing
+  href: wayk/client/licensing.html
+- uid: wayk-client-performance
+  name: Wayk Client Performance
+  href: wayk/client/performance.html
+- uid: wayk-client-psremoting
+  name: Wayk PowerShell Remoting
+  href: wayk/client/psremoting.html
+- uid: wayk-client-requirements
+  name: Wayk Client Requirements
+  href: wayk/client/requirements.html
+- uid: wayk-client-user-login
+  name: Wayk Client User Login
+  href: wayk/client/user-login.html
+- uid: wayk-docker-installation
+  name: Docker Installation
+  href: wayk/bastion/docker-installation.html
+- uid: wayk-jumpcloud-directory
+  name: JumpCloud Directory Integration
+  href: wayk/bastion/jumpcloud-directory.html
+- uid: wayk-license-management
+  name: License Management
+  href: wayk/bastion/license-management.html
+- uid: wayk-migration-guide
+  name: Migration Guide
+  href: wayk/bastion/migration-guide.html
+- uid: wayk-overview
+  name: Wayk Bastion
+  href: wayk/index.html
+- uid: wayk-powershell-installation
+  name: PowerShell Installation
+  href: wayk/bastion/powershell-installation.html
+- uid: wayk-white-label-branding
+  name: White Label Branding
+  href: wayk/bastion/white-label-branding.html

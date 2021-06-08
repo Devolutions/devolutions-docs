@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Getting Started Guide (Azure VM) | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Getting Started Guide (Azure VM) | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="getting-started-azure">
+<h1 id="getting-started-guide-azure-vm">Getting Started Guide (Azure VM)</h1>
+
+<p>This getting started guide provides instructions for setting up Wayk Bastion on a Windows Server 2019 Core + Containers virtual machine instance in Azure. This guide can also be followed for installation on a regular Windows Server 2019 Core virtual machine outside of Azure with minimal adjustments.</p>
+<p>We will be deploying Wayk Bastion on an Azure VM for a fictional company called BuzzWord Marketing, with a real domain name (den.buzzword.marketing).</p>
+<h2 id="step-1-create-azure-vm">Step 1: Create Azure VM</h2>
+<p>In the Azure Marketplace, find the &quot;Windows Server&quot; virtual machine resource, select &quot;Windows Server 2019 Datacenter Server Core with Containers&quot; then click &quot;Create&quot;:</p>
+<p><img src="../../images/azure_vm_windows_server_core_create.png" alt="Azure VM selection and creation"></p>
+<p>Select a workload environment based on your needs, the click &quot;Continue to create a VM&quot;. For the purpose of this guide, I selected the recommended defaults for development and testing.</p>
+<p><img src="../../images/azure_vm_recommended_defaults.png" alt="Azure VM recommended defaults"></p>
+<p>Create a resource group for the VM (BuzzWordMarketing) and name the resource BuzzWordServer. Fill the form for the Administrator account, we will be using it to access the virtual machine with RDP. Last but not least, select all inbound ports (HTTP (80), HTTPS (443), SSH (22), RDP(3389)). Click &quot;Next: Disks&quot; to continue.</p>
+<p><img src="../../images/azure_vm_create_basics.png" alt="Azure VM creation - basics"></p>
+<p>Keep the default disk configuration, then click &quot;Next: Networking&quot;. Keep the default networking configuration, then click &quot;Next: Management&quot;.</p>
+<p><img src="../../images/azure_vm_create_networking.png" alt="Azure VM creation - networking"></p>
+<p>To control costs on a test virtual machine, disable boot diagnostics and enable auto-shutdown. Skip the &quot;Advanced&quot; and &quot;Tags&quot; sections to go to the final &quot;Review + Create&quot; section.</p>
+<p><img src="../../images/azure_vm_create_management.png" alt="Azure VM creation - management"></p>
+<p>Review the virtual machine configuration, then click &quot;Create&quot;.</p>
+<p><img src="../../images/azure_vm_create_review.png" alt="Azure VM creation - review"></p>
+<p>Wait for a few minutes until the virtual machine creation is completed.</p>
+<p><img src="../../images/azure_vm_create_progress.png" alt="Azure VM creation - in progress"></p>
+<p>Once completed, click on the virtual machine resource. Click on the &quot;Connect&quot; button in the menu bar on top of the screen to show connection options.</p>
+<p><img src="../../images/azure_vm_create_complete.png" alt="Azure VM creation - completed"></p>
+<p>Copy the virtual machine IP address (40.121.21.221) to the clipboard and keep it for later.</p>
+<p>Download the .rdp file and open it with an RDP client. Use the previously configured administrator account to connect to the virtual machine.</p>
+<p>If all worked well, you should see a Windows command prompt inside an empty desktop, a good sign that you’ve successfully connected to a Windows Server core virtual machine that doesn’t have Desktop Experience installed. Type &quot;start powershell&quot; to open a blue PowerShell prompt instead of the default black Windows command prompt.</p>
+<h2 id="step-2-configure-dns">Step 2: Configure DNS</h2>
+<p>Now that the virtual machine is up and running, we will create a DNS
+record pointing to it. For this guide, we bought the domain
+<em>buzzword.marketing</em> from <a href="https://www.namecheap.com">namecheap</a>,
+created a corresponding <a href="https://docs.microsoft.com/en-us/azure/dns/dns-getstarted-portal">Azure DNS zone</a>,
+then <a href="https://www.namecheap.com/support/knowledgebase/article.aspx/767/10/how-to-change-dns-for-a-domain">configured namecheap with custom DNS name servers from Azure</a>.</p>
+<p>It is recommended to expose Wayk Bastion on a &quot;den&quot; subdomain, so we will create a DNS <em>A</em> record with &quot;den&quot; as the name and our public IP address (40.121.21.221) as value. Click OK, then wait for the DNS configuration to propagate, until den.buzzword.marketing can be resolved.</p>
+<p><img src="../../images/azure_dns_add_record.png" alt="Azure DNS - add record"></p>
+<h2 id="step-3-launch-wayk-bastion">Step 3: Launch Wayk Bastion</h2>
+<p>Go back to the RDP client connected to the Azure VM and the PowerShell prompt.</p>
+<p>Make sure that the docker service is running:</p>
+<pre><code>&gt; Get-Service | Where-Object { $_.Name -Like 'docker' }
+&gt; Start-Service -Name docker
+</code></pre>
+<p>Install the WaykBastion module:</p>
+<pre><code>&gt; Install-Module -Name WaykBastion -Force
+</code></pre>
+<p>Import the WaykBastion module:</p>
+<pre><code>&gt; Import-Module -Name WaykBastion
+</code></pre>
+<p>Create a new Wayk Bastion configuration and then import a valid TLS certificate. For testing, I have obtained a free certificate from <a href="https://letsencrypt.org/">letsencrypt</a> using <a href="https://github.com/rmbolger/Posh-ACME">Posh-ACME</a> and the <a href="https://github.com/rmbolger/Posh-ACME/blob/master/Posh-ACME/DnsPlugins/Azure-Readme.md">Azure DNS plugin</a>.</p>
+<pre><code>&gt; New-WaykBastionConfig -Realm buzzword.marketing -ExternalUrl 'https://den.buzzword.marketing' -ListenerUrl 'https://localhost:443'
+&gt; Import-WaykDenCertificate -CertificateFile .\fullchain.pfx -Password 'poshacme'
+</code></pre>
+<p>Alternatively, you can skip the TLS certificate configuration and expose Wayk Bastion in HTTP (never do this in production):</p>
+<pre><code>&gt; New-WaykBastionConfig -Realm buzzword.marketing -ExternalUrl 'http://den.buzzword.marketing' -ListenerUrl 'http://localhost:80'
+</code></pre>
+<p>Finally, start Wayk Bastion:</p>
+<pre><code>&gt; Start-WaykBastion -Verbose
+</code></pre>
+<p>The first launch will pull all docker images based on Windows Server Core, which can take a while because of their large size. Once started, you should be able to open <a href="https://den.buzzword.marketing">https://den.buzzword.marketing</a> in your browser.</p>
+<p>From there, you can follow the <a href="getting-started-argo.html">getting started guide (Argo tunnel)</a> starting from Step 4: Complete initial configuration from Wayk Bastion Web UI.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

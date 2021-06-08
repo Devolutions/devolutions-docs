@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Wayk Bastion Overview | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Wayk Bastion Overview | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="wayk-bastion-index">
+
+
+<p><img src="../../logos/wayk-bastion-color-shadow.svg" alt="Image"></p>
+<h1 id="wayk-bastion-overview">Wayk Bastion Overview</h1>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>We are in the process of rebranding Wayk Den to Wayk Bastion, so some of the documentation may be outdated. If you are upgrading from Wayk Den to Wayk Bastion, please follow the steps from the <a class="xref" href="migration-guide.html">migration guide</a>.</p>
+</div>
+<p>WaykBastion is a PowerShell module for Wayk Bastion, the centralized server for <a href="https://wayk.devolutions.net">Devolutions Wayk</a>. For assistance or feature requests, please use the <a href="https://forum.devolutions.net/#WaykNow">Wayk forums</a> or open a ticket on this github project.</p>
+<p>Make sure you have all software prerequisites then read one of our getting started guides:</p>
+<ul>
+<li><a class="xref" href="getting-started-argo.html">getting started guide (Argo tunnel)</a></li>
+<li><a class="xref" href="getting-started-azure.html">getting started guide (Azure VM)</a>.</li>
+<li><a class="xref" href="getting-started-acme.html">getting started guide (ACME/letsencrypt)</a>.</li>
+<li><a class="xref" href="../../gateway/getting-started.html">Devolutions Gateway getting started guide</a>.</li>
+<li><a class="xref" href="iis-deployment.html">IIS deployment guide</a>.</li>
+</ul>
+<p>Once you have been familiarized with Wayk Bastion, come back to this page for more details on specific aspects of the software.</p>
+<h2 id="installation">Installation</h2>
+<h3 id="docker">Docker</h3>
+<p><a class="xref" href="docker-installation.html">Docker Installation</a></p>
+<h3 id="powershell">PowerShell</h3>
+<p><a class="xref" href="powershell-installation.html">PowerShell Installation</a></p>
+<h4 id="powershell-module">PowerShell module</h4>
+<p>A powershell module is available to configure and manage the Wayk Bastion server. It is available on PSGallery or it could be built directly from <a href="https://github.com/Devolutions/WaykBastion-ps">source code</a>. We recommend to install the latest version available on PSGallery, but if needed, a section describe how to build it if you need it.</p>
+<p>The Wayk Bastion PowerShell module is <a href="https://www.powershellgallery.com/packages/WaykBastion">available on PSGallery</a>.</p>
+<pre><code class="lang-powershell">Install-Module -Name WaykBastion -Scope AllUsers
+Import-Module WaykBastion
+</code></pre>
+<p>You can then list all commands exported from the <code>WaykBastion</code> module:</p>
+<pre><code class="lang-powershell">Get-Command -Module WaykBastion
+</code></pre>
+<p>When a new version comes out, you can update the cmdlet and restart Wayk Bastion to upgrade. The updated cmdlet will point to newer versions of the docker containers used in Wayk Bastion, so upgrading is a simple matter of restarting Wayk Bastion:</p>
+<pre><code class="lang-powershell">Update-Module -Name WaykBastion
+Import-Module WaykBastion
+Restart-WaykBastion
+</code></pre>
+<p>You can also list all Powershell module versions installed:</p>
+<pre><code class="lang-powershell">Get-Module WaykBastion -ListAvailable -All
+</code></pre>
+<p>You could see some modules installed in <code>Program Files</code> folder and others installed in <code>Users</code> folder depending if you used a Powershell prompt with elevated permissions (run as Administrator) or not to install the module. We should always use a prompt with elevated privileges to install or update Wayk Bastion Powershell module to install all versions in <code>Program Files</code> folder. If it is not the case, you can uninstall all versions and reinstall with the command above. To uninstall all versions:</p>
+<pre><code class="lang-powershell">Uninstall-Module -Name WaykBastion -AllVersion
+</code></pre>
+<h2 id="deployment">Deployment</h2>
+<p>Before jumping in to the configuration, let’s review the different deployment options.</p>
+<p>Layer 4 deployment: Expose services externally through TCP (layer 4) and handle HTTPS inside Wayk Bastion.</p>
+<p>Layer 7 deployment: Expose services externally through a layer 7 reverse proxy (HTTPS) that offloads TLS from Wayk Bastion.</p>
+<h3 id="wayk-bastion">Wayk Bastion</h3>
+<p><img src="../../images/wayk_den_l4_deployment.png" alt="Wayk Bastion Layer 4 deployment"></p>
+<p><img src="../../images/wayk_den_l7_deployment.png" alt="Wayk Bastion Layer 7 deployment"></p>
+<h3 id="jet-relay">Jet Relay</h3>
+<p><img src="../../images/jet_relay_l4_deployment.png" alt="Jet Relay Layer 4 Deployment"></p>
+<p><img src="../../images/jet_relay_l7_deployment.png" alt="Jet Relay Layer 7 deployment"></p>
+<h2 id="configuration">Configuration</h2>
+<p>All Wayk Bastion commands accept a -ConfigPath parameter to point to a directory where various configuration files are kept. If this parameter is not specified, the current working directory is used by default.</p>
+<p>The first step is to create a Wayk Bastion configuration file with mandatory parameters using the <code>New-WaykBastionConfig</code> command.</p>
+<p>You need to choose a realm for your Wayk Bastion, such as &quot;contoso.net&quot;. This realm does not need to be a valid DNS domain name, but it will become your Wayk Bastion realm used in various places, including the peer-to-peer certificates generated by the Wayk Bastion built-in certificate authority.</p>
+<p>The second mandatory parameter is the external URL at which the Wayk Bastion will be exposed. We recommend using the &quot;den&quot; subdomain under the domain of your choice, such as &quot;den.contoso.net&quot;. The protocol prefix (<code>http://</code> or <code>https://</code>) also needs to be included.</p>
+<p>Create a new Wayk Bastion configuration file, using &quot;contoso.net&quot; as realm and &quot;https://den.contoso.net&quot; as the external url:</p>
+<pre><code class="lang-powershell">PS &gt; New-WaykBastionConfig -Realm contoso.net -ExternalUrl https://den.contoso.net -ListenerUrl http://localhost:4000
+</code></pre>
+<p>The listener url is used to specify the listening protocol and port on the machine where Wayk Bastion is running. To listen in https, a certificate needs to be imported before changing the listener URL protocol.</p>
+<h3 id="initial-setup">Initial Setup</h3>
+<p>When accessing the Web UI for the first time, login using the default username (&quot;wayk-admin&quot;) and password (&quot;wayk-admin&quot;):</p>
+<p><img src="../../images/den_initial_login.png" alt="Wayk Bastion initial login"></p>
+<p>You will then be asked to create your first admin account to replace the default one:</p>
+<p><img src="../../images/den_initial_admin.png" alt="Wayk Bastion initial admin"></p>
+<p>It should also be noted that you can access the Wayk Bastion Web UI locally through the configured listener URL (<a href="http://localhost:4000">http://localhost:4000</a> by default) for convenience, as an intermediate step before configuring the external URL.</p>
+<h3 id="certificate-configuration">Certificate configuration</h3>
+<p>To expose Wayk Bastion to the external world, you will need a TLS certificate from a trusted certificate authority such as <a href="https://letsencrypt.org/">Let's Encrypt</a>. Wayk will validate certificates in the same way as a browser does for a website.</p>
+<p>If you wish to make your own certificate authority, the Root CA certificate will need to be installed in each machine’s certificate trust store. If the system browser can validate it, Wayk should be able to validate it as well, it’s just a lot more work.</p>
+<p>Before going any further, check the following points:</p>
+<ol>
+<li>The certificate name matches your configured external URL. This means that if your external URL is &quot;https://den.contoso.com&quot; then your certificate name should be &quot;den.contoso.com&quot; or &quot;*.contoso.com&quot; if you have a wildcard certificate.</li>
+<li>The certificate is either in pem + key or pfx (PKCS#12) format. The private key password is only supported for the pfx format.</li>
+<li>The certificate file contains the certificate <strong>chain</strong> excluding the Root CA. This means that in most cases, you should have a leaf certificate, followed by one or more intermediate certificates. If validation works in a browser but not in Wayk, the intermediate certificate is likely missing.</li>
+</ol>
+<p>The PEM format is the simplest to work with, since it is the Base64 representation of the DER-encoded certificate in between &quot;-----BEGIN CERTIFICATE-----&quot; and &quot;-----END CERTIFICATE-----&quot; tags. To add the intermediate certificate to the certificate file, just append it after your leaf certificate in a text editor.</p>
+<pre><code class="lang-powershell">PS &gt; Import-WaykBastionCertificate -CertificateFile /path/to/certificate.pem -PrivateKeyFile /path/to/private_key.key
+PS &gt; Import-WaykBastionCertificate -CertificateFile /path/to/certificate.pfx -Password &lt;password&gt;
+</code></pre>
+<h2 id="running">Running</h2>
+<p>Start Wayk Bastion, and wait for all containers to start:</p>
+<pre><code class="lang-powershell">Start-WaykBastion
+</code></pre>
+<p>Once started, Wayk Bastion listens on <a href="http://localhost:4000">http://localhost:4000</a> by default.</p>
+<p>Alternatively, if you want to see the complete docker commands executed by the &quot;Start-WaykBastion&quot; command, you can use the <em>-Verbose</em> parameter:</p>
+<pre><code class="lang-powershell">Start-WaykBastion -Verbose
+</code></pre>
+<p>You can check that all containers are up and running with the <code>docker ps -f network=den-network</code> command.</p>
+<p>To confirm everything is correctly configured, you should be able to get a response from the Wayk Bastion well known configuration endpoint:</p>
+<pre><code class="lang-powershell">curl http://localhost:4000/.well-known/configuration
+{&quot;den_router_uri&quot;:&quot;https://den.contoso.net/cow&quot;,&quot;lucid_uri&quot;:&quot;https://den.contoso.net/lucid&quot;,&quot;realm&quot;:&quot;contoso.net&quot;,&quot;wayk_client_id&quot;:&quot;zqdvSbCRWdDrj1fQXwzPQbCg&quot;}
+</code></pre>
+<p>If you have correctly configured external access, you should be able to get the same response using the external configuration URL (<a href="https://den.contoso.net/.well-known/configuration">https://den.contoso.net/.well-known/configuration</a>).</p>
+<p>Stop Wayk Bastion, and wait for all containers to stop:</p>
+<pre><code class="lang-powershell">Stop-WaykBastion
+</code></pre>
+<h3 id="system-service">System Service</h3>
+<p>It is possible to register a system service on Windows to automatically call Start-WaykBastion / Stop-WaykBastion in a given config directory.</p>
+<p>Instead of using a local user directory for the configuration files, the service should be installed in a global directory with restricted permissions like this:</p>
+<pre><code class="lang-powershell">PS &gt; $ConfigPath = Get-WaykBastionPath ConfigPath
+PS &gt; $ConfigPath
+C:\ProgramData\Devolutions\Wayk Bastion
+PS &gt; New-Item -Path $ConfigPath -Type Directory -Force
+</code></pre>
+<p>The &quot;Get-WaykBastionPath ConfigPath&quot; command returns the recommended directory for the current platform where files should be stored.</p>
+<p>If you already have a directory with your Wayk Bastion configuration files, you should move them to the new location. You can then proceed with the service registration:</p>
+<pre><code class="lang-powershell">PS &gt; Set-Location $ConfigPath
+PS &gt; Register-WaykBastionService -ServicePath $ConfigPath
+&quot;WaykBastion&quot; service has been installed to &quot;C:\ProgramData\Devolutions\Wayk Bastion&quot;
+PS &gt; Get-Service WaykBastion
+
+Status   Name               DisplayName
+------   ----               -----------
+Stopped  WaykBastion            Wayk Bastion
+PS &gt; Start-Service WaykBastion
+</code></pre>
+<p>Wait for the service to start, this can take some time. If you look at the files in the directory, you should see &quot;WaykBastion.exe&quot;, which is the service executable, and &quot;WaykBastion.log&quot;, the service log file:</p>
+<pre><code class="lang-powershell">PS &gt; Get-ChildItem
+
+    Directory: C:\ProgramData\Devolutions\Wayk Bastion
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----         4/2/2020   5:21 PM                den-server
+d-----         4/2/2020   5:06 PM                traefik
+-a----         4/7/2020   4:34 PM            314 service.json
+-a----         4/2/2020   5:06 PM            909 wayk-den.yml
+-a----         4/2/2020   5:33 PM         770048 WaykBastion.exe
+-a----         4/7/2020   4:07 PM           2753 WaykBastion.log
+</code></pre>
+<p>If you encounter issues with Wayk Bastion not working as expected when launched through the system service, the best way to debug the issue is to go in the same directory as the service and run the &quot;Start-WaykBastion&quot; command manually to see what happens.</p>
+<p>The system service is a wrapper over the cmdlet. If you need to remove it, you can call the <code>Unregister-WaykBastionService</code> function:</p>
+<pre><code class="lang-powershell">Unregister-WaykBastionService -ServicePath $ConfigPath
+</code></pre>
+<p>You can also update the service wrapper executable when never versions of the cmdlet are published by calling <code>Register-WaykBastionService</code> again.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

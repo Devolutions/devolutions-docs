@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Wayk Agent Configuration | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Wayk Agent Configuration | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="wayk-agent-configuration">
+<h1 id="wayk-agent-configuration">Wayk Agent Configuration</h1>
+
+<h3 id="configuration-using-ui">Configuration using UI</h3>
+<p>The Agent can be configured using the user interface, via the Options (&quot;Preferences&quot; on macOS) window. The Agent configuration requires administrative permissions to update; it may be necessary to click the unlock button and provide the proper credentials before it's possible to change any settings.</p>
+<h3 id="configuration-using-command-line">Configuration using Command Line</h3>
+<p>After installing Wayk Agent on a machine, the <em>wayk-now</em> (<em>wayk-agent</em> on Linux) command-line becomes available for post-installation automation. The <em>config</em> command can be used to read and update the configuration. It's necessary in all cases to pass the <code>-global</code> switch to ensure that per-machine settings are overriden; e.g.</p>
+<p>To update a setting:</p>
+<p><code>wayk-now config --global {settingname} {new value}</code></p>
+<p>To read a setting:</p>
+<p><code>wayk-now config --global {settingname}</code></p>
+<p>See <a href="#configurations">the list of available settings</a>.</p>
+<h3 id="configuration-at-install-time">Configuration at Install Time</h3>
+<p>The Wayk Agent installer on Windows can accept configuration information at install time, as .msi parameters. This removes the need for an additional configuration step after installation.</p>
+<p>For example:</p>
+<p><code>msiexec /i WaykAgent-x64-2021.1.0.0.msi CONFIG_AUTO_LAUNCH_ON_USER_LOGON=&quot;true&quot; CONFIG_LANGUAGE=&quot;fr&quot;</code></p>
+<p>Will install the Agent and configure WaykAgent.exe to automatically launch on logon, and the user interface to be configured to French.</p>
+<p>Beyond <a href="#configurations">the list of available settings</a>, the installer also provides some additional install-time options:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">MSI Parameter Name</th>
+<th style="text-align: center;">Description</th>
+<th style="text-align: center;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">INSTALLDESKTOPSHORTCUT</td>
+<td style="text-align: center;">Clear this property to prevent the desktop shortcut from being created</td>
+<td style="text-align: center;"><code>INSTALLDESKTOPSHORTCUT=&quot;&quot;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">INSTALLSTARTMENUSHORTCUT</td>
+<td style="text-align: center;">Clear this property to prevent the Start menu shortcut from being created</td>
+<td style="text-align: center;"><code>INSTALLSTARTMENUSHORTCUT=&quot;&quot;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">WAYK_ADMIN_PASS</td>
+<td style="text-align: center;">If provided, the installer will create a local <em>wayk-user</em> account with the given password, suitable for connecting to the machine using the SRD authentication type</td>
+<td style="text-align: center;"><code>WAYK_ADMIN_PASS=&quot;SecurePassword123!&quot;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">SUPPRESSLAUNCH</td>
+<td style="text-align: center;">Clear this property to automatically launch WaykAgent.exe once installation is complete</td>
+<td style="text-align: center;"><code>SUPPRESSLAUNCH=&quot;&quot;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">ENROLL_TOKEN_ID</td>
+<td style="text-align: center;">Provide an enrollment token ID to automatically register the machine for unattended access. This must be used in conjunction with <code>ENROLL_DEN_URL</code>.</td>
+<td style="text-align: center;"><code>ENROLL_TOKEN_ID=&quot;4203e0a8-525d-4769-b37a-1b3aea8e7b10&quot;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">ENROLL_DEN_URL</td>
+<td style="text-align: center;">Provide the URL of the Wayk Bastion server to register the machine with for unattended access. This must be used in conjunction with <code>ENROLL_TOKEN_ID</code></td>
+<td style="text-align: center;"><code>ENROLL_DEN_URL=&quot;https://bastion.ad.it-help.ninja&quot;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">BRANDING_FILE</td>
+<td style="text-align: center;">The path to a white label archive, to preconfigure the installation with custom branding. The path should be absolute.</td>
+<td style="text-align: center;"><code>BRANDING_FILE=&quot;\\Server2\Share\Wayk\branding.zip&quot;</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="configurations">Configurations</h2>
+<h3 id="access-control">Access Control</h3>
+<p>Possible values are:</p>
+<p><strong>1</strong> Allowed (<em>Default</em>)</p>
+<p><strong>2</strong> Confirm</p>
+<p><strong>4</strong> Disabled</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Setting Name</th>
+<th style="text-align: left;">MSI Name</th>
+<th style="text-align: center;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">AccessControl.Viewing</td>
+<td style="text-align: left;">CONFIG_ACCESS_CONTROL_VIEWING</td>
+<td style="text-align: center;">Whether the client can see the Agent desktop</td>
+</tr>
+<tr>
+<td style="text-align: left;">AccessControl.Interact</td>
+<td style="text-align: left;">CONFIG_ACCESS_CONTROL_INTERACT</td>
+<td style="text-align: center;">Whether the client can control the Agent desktop</td>
+</tr>
+<tr>
+<td style="text-align: left;">AccessControl.Clipboard</td>
+<td style="text-align: left;">CONFIG_ACCESS_CONTROL_CLIPBOARD</td>
+<td style="text-align: center;">Whether the client can share the Agent clipboard</td>
+</tr>
+<tr>
+<td style="text-align: left;">AccessControl.FileTransfer</td>
+<td style="text-align: left;">CONFIG_ACCESS_CONTROL_FILE_TRANSFER</td>
+<td style="text-align: center;">Whether the client can transfer files to and from the Agent</td>
+</tr>
+<tr>
+<td style="text-align: left;">AccessControl.Exec</td>
+<td style="text-align: left;">CONFIG_ACCESS_CONTROL_EXEC</td>
+<td style="text-align: center;">Whether the client can execute scripts and programs on the Agent</td>
+</tr>
+<tr>
+<td style="text-align: left;">AccessControl.Chat</td>
+<td style="text-align: left;">CONFIG_ACCESS_CONTROL_CHAT</td>
+<td style="text-align: center;">Whether the client can initiate a chat session with the Agent</td>
+</tr>
+</tbody>
+</table>
+<h3 id="security">Security</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Setting Name</th>
+<th style="text-align: left;">MSI Name</th>
+<th style="text-align: center;">Description</th>
+<th style="text-align: right;">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">AllowNoPassword</td>
+<td style="text-align: left;">CONFIG_ALLOW_NO_PASSWORD</td>
+<td style="text-align: center;">Allow the &quot;Prompt for Permission&quot; (passwordless) authentication type</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">AllowPersonalPassword</td>
+<td style="text-align: left;">CONFIG_ALLOW_PERSONAL_PASSWORD</td>
+<td style="text-align: center;">Allow the &quot;Secure Remote Password&quot; (SRP) authentication type</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">AllowSystemAuth</td>
+<td style="text-align: left;">CONFIG_ALLOW_SYSTEM_AUTH</td>
+<td style="text-align: center;">Allow the &quot;Secure Remote Delegation&quot; (SRD) authentication type. It is not recommended to disable this setting.</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">GeneratedPasswordAutoReset</td>
+<td style="text-align: left;">CONFIG_GENERATED_PASSWORD_AUTO_RESET</td>
+<td style="text-align: center;">Automatically reset the generated SRP password after it has been used</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">GeneratedPasswordCharSet</td>
+<td style="text-align: left;">CONFIG_GENERATED_PASSWORD_CHAR_SET</td>
+<td style="text-align: center;">The character set to use when generating SRP passwords.</td>
+<td style="text-align: right;"><code>0</code> (numeric), <code>1</code> (alphanumeric) (<em>default</em>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">GeneratedPasswordLength</td>
+<td style="text-align: left;">CONFIG_GENERATED_PASSWORD_LENGTH</td>
+<td style="text-align: center;">The length (in characters) of generated SRP passwords.</td>
+<td style="text-align: right;">Default is 6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="user-interface">User Interface</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Setting Name</th>
+<th style="text-align: left;">MSI Name</th>
+<th style="text-align: center;">Description</th>
+<th style="text-align: right;">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">AutoLaunchOnUserLogon</td>
+<td style="text-align: left;">CONFIG_AUTO_LAUNCH_ON_USER_LOGON</td>
+<td style="text-align: center;">Automatically launch the Wayk Agent application on user logon. Windows only.</td>
+<td style="text-align: right;"><code>true</code>, <code>false</code> (<em>default</em>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">FriendlyName</td>
+<td style="text-align: left;">CONFIG_FRIENDLY_NAME</td>
+<td style="text-align: center;">The friendly name of the Agent for use in chat sessions and PFP authentication</td>
+<td style="text-align: right;">Default is the machine network name</td>
+</tr>
+<tr>
+<td style="text-align: left;">Language</td>
+<td style="text-align: left;">CONFIG_LANGUAGE</td>
+<td style="text-align: center;">The language of the user interface</td>
+<td style="text-align: right;">Language code. Default is <code>en</code> (English)</td>
+</tr>
+<tr>
+<td style="text-align: left;">MinimizeToNotificationArea</td>
+<td style="text-align: left;">CONFIG_MINIMIZE_TO_NOTIFICATION_AREA</td>
+<td style="text-align: center;">Minimize the Wayk Agent application to the system tray instead of the task bar or dock</td>
+<td style="text-align: right;"><code>true</code>, <code>false</code> (<em>default</em>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">ShowMainWindowOnLaunch</td>
+<td style="text-align: left;">CONFIG_SHOW_MAIN_WINDOW_ON_LAUNCH</td>
+<td style="text-align: center;">Show the Wayk Agent main window when the application is launched</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="miscellaneous">Miscellaneous</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Setting Name</th>
+<th style="text-align: left;">MSI Name</th>
+<th style="text-align: center;">Description</th>
+<th style="text-align: right;">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">AnalyticsEnabled</td>
+<td style="text-align: left;">CONFIG_ANALYTICS_ENABLED</td>
+<td style="text-align: center;">Report anonymous usage information to Devolutions</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">AutoUpdateEnabled</td>
+<td style="text-align: left;">CONFIG_AUTO_UPDATE_ENABLED</td>
+<td style="text-align: center;">Automatically keep the application updated</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">ChatLogEnabled</td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">Log a history of all chat conversations</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">CrashReporterAutoUpload</td>
+<td style="text-align: left;">CONFIG_CRASH_REPORTER_AUTO_UPLOAD</td>
+<td style="text-align: center;">Automatically upload crash reports to Devolutions. Requires the crash reporter to be enabled. Windows only.</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">CrashReporterEnabled</td>
+<td style="text-align: left;">CONFIG_CRASH_REPORTER_ENABLED</td>
+<td style="text-align: center;">Automatically capture diagnostic information about application failures. Windows only.</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">DenUrl</td>
+<td style="text-align: left;">CONFIG_DEN_URL</td>
+<td style="text-align: center;">The Wayk Bastion URL to connect to.</td>
+<td style="text-align: right;">Default is <code>wss://den.wayk.net</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">DxgiCaptureEnabled</td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">Use hardware accelerated screen capture. Windows only.</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">LoggingLevel</td>
+<td style="text-align: left;">CONFIG_LOGGING_LEVEL</td>
+<td style="text-align: center;">The diagnostic level to use for recording log messages</td>
+<td style="text-align: right;"><code>0</code> (TRACE) to <code>5</code> (FATAL). <code>6</code> is OFF (no logging)</td>
+</tr>
+<tr>
+<td style="text-align: left;">LoggingFilter</td>
+<td style="text-align: left;">CONFIG_LOGGING_FILTER</td>
+<td style="text-align: center;">A runtime filter for log messages</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">PublishUniqueId</td>
+<td style="text-align: left;">CONFIG_PUBLISH_UNIQUE_ID</td>
+<td style="text-align: center;">Publish the Agent unique ID with the wayk.link bookmarking service</td>
+<td style="text-align: right;"><code>true</code> (<em>default</em>), <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">UpdateCheckInterval</td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">The duration between automated update checks</td>
+<td style="text-align: right;">Duration in seconds between <code>3600</code> and <code>604800</code>. Default is <code>86400</code> (Daily)</td>
+</tr>
+<tr>
+<td style="text-align: left;">UpdateRetryInterval</td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;">The duration to wait after a failed update check to try again</td>
+<td style="text-align: right;">Duration in seconds between <code>300</code> and <code>3600</code>. Default is <code>900</code> (15 minutes)</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

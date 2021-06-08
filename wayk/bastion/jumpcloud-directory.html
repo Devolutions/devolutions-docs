@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>JumpCloud Directory Integration | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="JumpCloud Directory Integration | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="wayk-jumpcloud-directory">
+<h1 id="jumpcloud-directory-integration">JumpCloud Directory Integration</h1>
+
+<p>Wayk Bastion supports <a href="https://jumpcloud.com/">JumpCloud</a> as a cloud user directory using as an alternative to Windows Active Directory. This can be particularly interesting for small organizations as JumpCloud has a free tier for up to 10 users.</p>
+<p>To get started, you will need to create a <a href="https://support.jumpcloud.com/support/s/article/getting-started1">JumpCloud organization</a>, and an LDAP reader account that will be used by Wayk Bastion for synchronization.</p>
+<p>For each of your regular users, the <strong>LDAP Bind DN</strong> feature must be enabled for LDAP authentication to work:</p>
+<p><img src="../../images/jumpcloud_user_ldap_bind_dn.png" alt="JumpCloud Console - LDAP User"></p>
+<p>It is recommended to create a &quot;wayk-users&quot; group containing all the users that should be synchronized in Wayk Bastion.</p>
+<p>The LDAP reader account is not a regular user account, it has to be configured as part of <a href="https://support.jumpcloud.com/support/s/article/using-jumpclouds-ldap-as-a-service1">JumpCloud's LDAP-as-a-service functionality</a>. This account is restricted to reading information from LDAP and cannot be used for regular authentication.</p>
+<p>Once this is done, you will need to find your LDAP organization ID:</p>
+<p><img src="../../images/jumpcloud_ldap_organization.png" alt="JumpCloud Console - LDAP Organization"></p>
+<p>You will also need the LDAP distinguished name for the LDAP reader account:</p>
+<p><img src="../../images/jumpcloud_ldap_reader_account.png" alt="JumpCloud Console - LDAP Reader Account"></p>
+<p>With all this information in hand, naviguate to <strong>Settings</strong>, then <strong>Account Provider</strong> in the Wayk Bastion interface. Select <strong>JumpCloud</strong> as the server type, then enter the following, replacing the values with your own:</p>
+<ul>
+<li><strong>Server URL</strong>: ldaps://ldap.jumpcloud.com:636</li>
+<li><strong>User Group</strong>: wayk-users</li>
+<li><strong>Username</strong>: UID=admin,OU=Users,O=5cfea4a811f5c961d4e942b8,DC=jumpcloud,DC=com</li>
+<li><strong>Password</strong>: (ldap reader password)</li>
+<li><strong>Base Distinguished Name</strong>: OU=Users,O=5cfea4a811f5c961d4e942b8,DC=jumpcloud,DC=com</li>
+</ul>
+<p><img src="../../images/wayk_jumpcloud_provider.png" alt="Wayk Bastion JumpCloud Provider"></p>
+<p>Use the <strong>Test LDAP Configuration</strong> button to validate the configuration, then save it using the <strong>Save</strong> button at the top right of the screen.</p>
+<p>You can now go in <strong>Users</strong>, then <strong>All Users</strong>, and you should now see the list of synchronized users.</p>
+<p>The Wayk Bastion login page should now also accept accounts with the same passwords used in JumpCloud. If authentication fails, make sure that the &quot;LDAP Bind DN&quot; feature is enabled in JumpCloud for all users.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

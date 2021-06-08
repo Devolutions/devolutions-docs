@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>PowerShell Installation | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="PowerShell Installation | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="wayk-powershell-installation">
+<h1 id="powershell-installation">PowerShell Installation</h1>
+
+<h2 id="windows">Windows</h2>
+<p>The <code>WaykBastion</code> PowerShell module is compatible with Windows PowerShell 5.1 (built-in), but advanced features like <a class="xref" href="../client/psremoting.html">Wayk PowerShell Remoting</a> require <a href="https://docs.microsoft.com/powershell/">PowerShell 7</a>. The Wayk Bastion host does not require PowerShell 7 unless you also intend to use Wayk Client or Wayk Agent on it for this reason.</p>
+<p>You can download and install PowerShell 7 <a href="https://github.com/PowerShell/PowerShell#get-powershell">following the instructions from the GitHub page</a>, otherwise you can install it using this quick one-liner command:</p>
+<pre><code class="lang-powershell">iex &quot;&amp; { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI -Quiet&quot;
+</code></pre>
+<h3 id="execution-policy">Execution Policy</h3>
+<p>The default <a href="https://docs.microsoft.com/en-ca/powershell/module/microsoft.powershell.core/about/about_execution_policies">PowerShell execution policy</a> is likely too restrictive, especially if you have never bothered configuring it before. To avoid issues, you can change the execution policy to <code>Unrestricted</code>:</p>
+<pre><code class="lang-powershell">Set-ExecutionPolicy Unrestricted
+</code></pre>
+<p>PowerShell code signing is a feature restricted to Windows, and is not available on non-Windows PowerShell yet. If you get errors related to the execution policy, just disable it, even just temporarily.</p>
+<h3 id="powershellget">PowerShellGet</h3>
+<p>A fresh Windows installation often comes with an outdated version of <a href="https://docs.microsoft.com/en-us/powershell/module/powershellget">PowerShellGet</a>, causing issues when you try installing PowerShell modules with the <code>Install-Module</code> command the first time. Run the following in an elevated terminal to <a href="https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget">update PowerShellGet</a>:</p>
+<pre><code class="lang-powershell">Install-PackageProvider Nuget -Force
+Install-Module -Name PowerShellGet -Force
+</code></pre>
+<h3 id="module-install-scope">Module Install Scope</h3>
+<p>Installation of PowerShell modules using the <a href="https://docs.microsoft.com/en-us/powershell/module/powershellget/install-module"><code>Install-Module</code> command</a> should always use <code>-Scope AllUsers</code>, otherwise PowerShell modules will be installed in the current user scope.</p>
+<p>Certain features like the Wayk Bastion service wrapper also <em>require</em> a global installation of the PowerShell module. Windows PowerShell 5.1 and PowerShell 7 use different directories to install modules in the <code>CurrentUser</code> scope, but they use the same one to install modules in the <code>AllUsers</code> scope.</p>
+<p>You can learn more about these differences in the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_psmodulepath">About PSModulePath</a> article.</p>
+<h2 id="linux">Linux</h2>
+<p>PowerShell 7 is cross-platform and is supported on <a href="https://github.com/PowerShell/PowerShell#get-powershell">a wide variety of Linux distributions</a>. Follow the official instructions to <a href="https://docs.microsoft.com/en-ca/powershell/scripting/install/installing-powershell-core-on-linux">install PowerShell on Linux</a> using the Microsoft package repositories.</p>
+<p>The following code snippet can be used to streamline the installation process on Ubuntu:</p>
+<pre><code class="lang-bash">sudo apt-get update
+sudo apt-get install -y wget apt-transport-https software-properties-common lsb-release
+wget -q &quot;https://packages.microsoft.com/config/ubuntu/$(lsb_release -r -s)/packages-microsoft-prod.deb&quot;
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get update
+sudo add-apt-repository universe
+sudo apt-get install -y powershell
+pwsh
+</code></pre>
+<h3 id="elevated-prompt">Elevated Prompt</h3>
+<p>Whenever instructions mention that commands require an &quot;elevated prompt&quot;, simply launch a new <code>pwsh</code> instance as root with the <code>sudo</code> command:</p>
+<pre><code class="lang-bash">sudo pwsh
+</code></pre>
+<p>You cannot run individual PowerShell commands as root with sudo, as PowerShell commands are not separate processes. The best is to create an elevated <code>pwsh</code> process only when required, an exit it once it is not no longer needed.</p>
+<h2 id="macos">macOS</h2>
+<p>Wayk Bastion is not officially supported on macOS, but Wayk Client and Wayk Agent definitely are. Follow the official instructions to <a href="https://docs.microsoft.com/en-ca/powershell/scripting/install/installing-powershell-core-on-macos">install PowerShell on macOS</a>. The most straightforward installation method is to use <a href="https://brew.sh/">Homebrew</a>:</p>
+<pre><code class="lang-bash">brew install --cask powershell
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

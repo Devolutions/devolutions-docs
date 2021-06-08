@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Wayk PowerShell Remoting | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Wayk PowerShell Remoting | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="wayk-client-psremoting">
+<h1 id="wayk-powershell-remoting">Wayk PowerShell Remoting</h1>
+
+<h2 id="requirements">Requirements</h2>
+<h3 id="powershell-7">PowerShell 7</h3>
+<p>Wayk PowerShell remoting <em>requires</em> PowerShell 7 on both sides:</p>
+<ul>
+<li>The local machine running Wayk Client</li>
+<li>The target machine running Wayk Agent</li>
+</ul>
+<p>Windows PowerShell 5.1 <em>cannot</em> be used for Wayk PowerShell remoting. <a href="https://github.com/PowerShell/PowerShell#get-powershell">Install PowerShell 7</a> and then make sure that &quot;pwsh&quot; is available in your PATH as opposed to &quot;powershell&quot;.</p>
+<h3 id="powershell-module">PowerShell Module</h3>
+<p>The <a href="https://www.powershellgallery.com/packages/WaykClient">WaykClient PowerShell module</a> is needed to launch a Wayk PowerShell session from PowerShell:</p>
+<pre><code class="lang-powershell">Install-Module WaykClient
+</code></pre>
+<p>Once the <code>WaykClient</code> PowerShell module is installed, you can import it, and list the commands it contains to get started:</p>
+<pre><code class="lang-powershell">Import-Module WaykClient
+Get-Command -Module WaykClient
+</code></pre>
+<h3 id="wayk-client">Wayk Client</h3>
+<p>This may look obvious, but it is important to know that the regular Wayk Client application needs to be installed, configured and logged in to Wayk Bastion before using Wayk PowerShell remoting.</p>
+<p>The <code>WaykClient</code> PowerShell module does not make its own separate connection to Wayk Bastion, it simply calls the existing Wayk Client program to initiate the connection to the target machine.</p>
+<p>Wayk PowerShell remoting in the Wayk Client is supported on Windows, macOS and Linux, as long as PowerShell 7 is installed.</p>
+<h3 id="wayk-agent">Wayk Agent</h3>
+<p>Wayk PowerShell remoting in the Wayk Agent is supported on Windows, macOS and Linux. Again, <a href="https://github.com/PowerShell/PowerShell#get-powershell">PowerShell 7 must be installed on the target machine</a>, as the built-in Windows PowerShell 5.1 cannot be used.</p>
+<h2 id="launching-connection">Launching Connection</h2>
+<p>Start by reviewing the following points:</p>
+<ol>
+<li>The Wayk Client application is running and logged in Wayk Bastion, as if ready to launch a Wayk remote desktop connection.</li>
+<li>PowerShell 7 is installed on both sides: Wayk Client (local machine) and Wayk Agent (target machine).</li>
+</ol>
+<p>Open a PowerShell terminal, make sure that it is running PowerShell 7 or later, then import the <code>WaykClient</code> PowerShell module:</p>
+<pre><code class="lang-powershell">PS &gt; $PSVersionTable.PSVersion.ToString()
+7.1.0
+PS &gt; Import-Module WaykClient
+</code></pre>
+<p>Create a new <code>PSCredential</code> object using the <code>Get-Credential</code> command with valid credentials for the target machine:</p>
+<pre><code class="lang-powershell">PS &gt; $Credential = Get-Credential
+
+PowerShell credential request
+Enter your credentials.
+User: wayk-admin
+Password for user wayk-admin: ********
+</code></pre>
+<p>You can now use the <code>Enter-WaykPSSession</code> command to launch a remote session:</p>
+<pre><code class="lang-powershell">PS &gt; $HostName = 'tailspin101'
+PS &gt; Enter-WaykPSSession -HostName $HostName -Credential $Credential
+[tailspin101]: PS &gt; [Environment]::MachineName
+TAILSPIN101
+</code></pre>
+<p>An alternative way to connect is using the <code>New-WaykPSSession</code> command to obtain the <code>PSSession</code> object without necessarily entering the session interactively:</p>
+<pre><code class="lang-powershell">PS &gt; $HostName = 'tailspin101'
+PS &gt; $Session = New-WaykPSSession -HostName $HostName -Credential $Credential
+PS &gt; Invoke-Command -Session $Session { [Environment]::MachineName }
+TAILSPIN101
+PS &gt; Enter-WaykPSSession -Session $Session
+[tailspin101]: PS &gt;
+</code></pre>
+<h2 id="powershell-remoting-internals">PowerShell Remoting Internals</h2>
+<p>If you want to learn more about how it works under the hood, you can do the steps manually using <code>Connect-WaykPSSession</code>, which modifies the current environment prior to calling the regular <code>Enter-PSSession</code> or <code>New-PSSession</code> commands:</p>
+<pre><code class="lang-powershell">PS &gt; $UserName = 'wayk-admin'
+PS &gt; $Password = ConvertTo-SecureString -String &quot;wayk123!&quot; -AsPlainText -Force
+PS &gt; $Credential = [PSCredential]::New($UserName, $Password)
+PS &gt; $HostName = 'tailspin101'
+PS &gt; Connect-WaykPSSession -HostName $HostName -Credential $Credential
+PS &gt; Enter-PSSession -HostName $HostName -UserName $UserName
+[tailspin101]: PS &gt;
+</code></pre>
+<p>After a successful <code>Connect-WaykPSSession</code> call, the current <code>PATH</code> environment variable has modified modified to point to a special SSH replacement executable meant to connect to an ephemeral WebSocket URL. Wayk PowerShell remoting uses the SSH transport without SSH, so you don't even need to have real OpenSSH client or server installed. In fact, here's proof:</p>
+<pre><code class="lang-powershell">[tailspin101]: PS &gt; Get-WindowsCapability -Online | ? Name -Like 'OpenSSH.Server*'
+
+Name  : OpenSSH.Server~~~~0.0.1.0
+State : NotPresent
+
+[tailspin101]: PS &gt; Get-Service sshd
+Get-Service: Cannot find any service with service name 'sshd'.
+</code></pre>
+<p>For a detailed explanation of how this is possible, read the <a href="https://blog.devolutions.net/2020/07/powershell-remoting-over-ssh-without-ssh">PowerShell Remoting Over SSH, Without SSH!</a> blog post.</p>
+<h2 id="interacting-with-gui-applications">Interacting with GUI Applications</h2>
+<p>Regular PowerShell remoting does not allow interaction with GUI applications, but Wayk PowerShell remoting is perfectly capable of it.</p>
+<p>To try it out, open a remote desktop session to target using Wayk or RDP, and then connect to the same target machine with the same user using Wayk PowerShell remoting.</p>
+<p>You can then use <code>Start-Process</code> to launch GUI applications in the same user session from the Wayk PowerShell remoting session:</p>
+<pre><code class="lang-powershell">[tailspin101]: PS &gt; Start-Process 'notepad'
+[tailspin101]: PS &gt; Start-Process 'calc'
+</code></pre>
+<p>You should normally see those programs appear in the remote desktop session, which is not something that can be done with regular PowerShell remoting:</p>
+<p><img src="../../images/wayk_psremoting_gui_interaction.png" alt="Wayk PSRemoting GUI Interaction"></p>
+<p>If interacting with GUI applications over Wayk PowerShell remoting is a feature of interest to you, please let us know by <a href="https://forum.devolutions.net/product/wayk-bastion">commenting on our forums</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Database Management | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Database Management | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="database-management">
+<h1 id="database-management">Database Management</h1>
+
+<p>Aside from the Wayk Bastion configuration files, all Wayk Bastion data is stored inside a <a href="https://www.mongodb.com">MongoDB database</a>. If you do not specify a database, a simple MongoDB container will be launched with a docker volume attached to it. While this is fine for a lot of use cases, using a single MongoDB container instance is not suitable for high availability scenarios.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you need help installing and configuring a MongoDB server, <a class="xref" href="mongodb-installation.html">use this guide instead</a>.</p>
+</div>
+<h2 id="external-database">External Database</h2>
+<p>To point Wayk Bastion to an existing MongoDB server, you need to configure a database connection string, and set MongoDB as external to avoid launching a MongoDB container instance:</p>
+<pre><code class="lang-powershell">Set-WaykBastionConfig -MongoExternal $true -MongoUrl 'mongodb://mongo-server:27017'
+</code></pre>
+<h2 id="database-backup">Database Backup</h2>
+<p>MongoDB database backups can be done using the <a href="https://docs.mongodb.com/manual/reference/program/mongodump/">mongodump command-line tool</a>. For simplicity, the <code>Backup-WaykBastionData</code> command can be used to streamline the process:</p>
+<pre><code class="lang-powershell">Backup-WaykBastionData -BackupPath .\den-backup.tgz -Verbose
+</code></pre>
+<p>The <code>Backup-WaykBastionData</code> is only usable with a non-external MongoDB database. You can add the <code>-Verbose</code> parameter to show the docker commands used to call <code>mongodump</code> inside a container for reference.</p>
+<h2 id="database-restore">Database Restore</h2>
+<p>A MongoDB database can be restored from a backup using the <a href="https://docs.mongodb.com/manual/reference/program/mongorestore/">mongorestore command-line tool</a>. For obvious reasons, you should be careful about restoring a database, as the operation will overwrite the current data and replace it with the one from the backup.</p>
+<p>Just like <code>Backup-WaykBastionData</code>, <code>Restore-WaykBastionData</code> should only be used with a non-external MongoDB database. A proper restore involves stopping Wayk Bastion, restoring data from the backup file, then restarting Wayk Bastion. Since Stop-WaykBastion stops the database container, <code>Restore-WaykBastionData</code> will automatically start it for the restore operation.</p>
+<pre><code class="lang-powershell">PS &gt; Stop-WaykBastion
+PS &gt; Restore-WaykBastionData -BackupPath &quot;.\den-backup.tgz&quot; -Verbose
+PS &gt; Restart-WaykBastion
+</code></pre>
+<h2 id="changing-database">Changing database</h2>
+<p>It is possible to change databases without deleting the current one, by changing which docker volume is attached to the <em>den-mongo</em> container. The default docker volume name is <em>den-mongodata</em>, but you can tell Wayk Bastion to use a different one:</p>
+<pre><code class="lang-powershell">PS &gt; Stop-WaykBastion
+PS &gt; Set-WaykBastionConfig -MongoVolume 'den-testdata'
+PS &gt; Start-WaykBastion
+</code></pre>
+<p>After starting Wayk Bastion, you should be able to see two docker volumes:</p>
+<pre><code class="lang-powershell">PS &gt; docker volume ls
+DRIVER              VOLUME NAME
+local               den-mongodata
+local               den-testdata
+</code></pre>
+<p>Since <em>den-testdata</em> is a new empty docker volume, Wayk Bastion will be the same as a fresh installation. This can be useful for safe experimentation in a temporary database without touching the &quot;good&quot; one.</p>
+<p>If you want to revert back to the original database, simply change the docker volume again:</p>
+<pre><code class="lang-powershell">PS &gt; Stop-WaykBastion
+PS &gt; Set-WaykBastionConfig -MongoVolume 'den-mongodata'
+PS &gt; Start-WaykBastion
+</code></pre>
+<p>Where <em>den-mongodata</em> is the default docker volume name.</p>
+<h2 id="deleting-database">Deleting database</h2>
+<p>If you want to start fresh and delete the MongoDB database entirely (use with caution!), here are the steps:</p>
+<pre><code class="lang-powershell">PS &gt; Stop-WaykBastion
+PS &gt; docker rm den-mongo
+PS &gt; docker volume rm den-mongodata
+</code></pre>
+<p>The above commands stop all containers, delete the <em>den-mongo</em> container currently associated with the <em>den-mongodata</em> volume, and then proceed to delete the docker volume containing the MongoDB database files.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

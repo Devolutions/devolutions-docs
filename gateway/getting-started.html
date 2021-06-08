@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Getting Started | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Getting Started | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="gateway-getting-started">
+<h1 id="getting-started">Getting Started</h1>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<p><a class="xref" href="../wayk/bastion/docker-installation.html">Docker Installation</a></p>
+<p>Install the <code>DevolutionsGateway</code> PowerShell module:</p>
+<pre><code class="lang-powershell">Install-Module -Name DevolutionsGateway
+Import-Module DevolutionsGateway
+</code></pre>
+<h2 id="configuration">Configuration</h2>
+<p>Create the Devolutions Gateway configuration directory if it doesn't already exists:</p>
+<pre><code class="lang-powershell">PS &gt; Import-Module DevolutionsGateway
+PS &gt; Get-DGatewayPath
+C:\ProgramData\Devolutions\Gateway
+PS &gt; New-Item -Path $(Get-DGatewayPath) -ItemType 'Directory' -Force
+</code></pre>
+<p>Move into the configuration directory manually, or using the Enter-DGatewayConfig command:</p>
+<pre><code class="lang-powershell">PS &gt; Enter-DGatewayConfig -ChangeDirectory
+PS C:\ProgramData\Devolutions\Gateway&gt;
+</code></pre>
+<p>The <code>Enter-DGatewayConfig</code> command sets the <code>DGATEWAY_CONFIG_PATH</code> environment variable that affects all commands accepting the <code>-ConfigPath</code> parameter. For this guide, we will be using the standard configuration directory.</p>
+<h3 id="gateway-hostname">Gateway Hostname</h3>
+<p>By default, the Devolutions Gateway will use the default computer name (<code>$Env:ComputerName</code>) as its hostname when responding to queries. For testing on the local network, this is probably not an issue, but for external access you will need to change it to the external DNS name you intend to use:</p>
+<pre><code class="lang-powershell">Set-DGatewayHostname 'jet.buzzword.marketing'
+</code></pre>
+<h3 id="gateway-listeners">Gateway Listeners</h3>
+<p>Before launching Devolutions Gateway for the first time, it is important to configure its protocol listeners with the <code>Set-DGatewayListeners</code> command:</p>
+<pre><code class="lang-powershell">Set-DGatewayListeners @(
+    $(New-DGatewayListener 'http://*:7171' 'http://*:7171'),
+    $(New-DGatewayListener 'tcp://*:8181' 'tcp://*:8181')
+    )
+</code></pre>
+<p>Run <code>Get-DGatewayListeners</code> to see the list of configured listeners:</p>
+<pre><code class="lang-powershell">PS &gt; Get-DGatewayListeners
+
+InternalUrl   ExternalUrl
+-----------   -----------
+http://*:7171 http://*:7171
+tcp://*:8181  tcp://*:8181
+</code></pre>
+<p>Each listener object is composed of an <code>InternalUrl</code> and <code>ExternalUrl</code> member. The internal URL is the local protocol and port on which to listen, the external URL is the external protocol and port used to expose the service externally.</p>
+<p>Use <code>*</code> as the &quot;host&quot; in both URLs to use an appropriate default value, unless it needs to be set explicitly to something else. The default host for the external URL is the configured gateway hostname.</p>
+<p>When using Devolutions Gateway on the local network, both URLs will generally be identical, so don't bother about it too much for now, we'll reconfigure them later for proper external access.</p>
+<h2 id="initial-launch">Initial Launch</h2>
+<p>Once the initial configuration is completed, the gateway can be started with the <code>Start-DGateway</code> command. Use the <code>-Verbose</code> parameter to print the full docker commands and use them for reference if you wish to launch the container directly without the <code>DevolutionsGateway</code> module.</p>
+<pre><code class="lang-powershell">PS &gt; Start-DGateway
+docker pull devolutions/devolutions-gateway:0.13.0-servercore-ltsc2019
+Starting devolutions-gateway
+devolutions-gateway successfully started
+</code></pre>
+<p>Make sure that the HTTP listener health check responds &quot;200 OK&quot;:</p>
+<pre><code class="lang-powershell">PS &gt; $DGatewayUrl = 'http://localhost:7171'
+PS &gt; Invoke-WebRequest &quot;$DGatewayUrl/health&quot;
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {74, 101, 116, 32...}
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 59
+                    Date: Thu, 22 Oct 2020 19:02:07 GMT
+
+                    Jet instance &quot;jet.buzzword.marketing&quot; is alive and healthy.
+Headers           : {[Content-Length, 59], [Date, Thu, 22 Oct 2020 19:02:07 GMT]}
+RawContentLength  : 59
+</code></pre>
+<h2 id="certificate-configuration">Certificate Configuration</h2>
+<p>Now that Devolutions Gateway was launched once with success, we can reconfigure it for proper HTTPS access. Before going any further, stop Devolutions Gateway if it is currently running:</p>
+<pre><code class="lang-powershell">Stop-DGateway
+</code></pre>
+<p>A valid certificate from a known authority like <a href="https://letsencrypt.org">letsencrypt</a> can be obtained in various ways. The <a href="https://github.com/rmbolger/Posh-ACME">Posh-ACME PowerShell module</a> is an excellent module with plugins for most DNS providers.</p>
+<p>For the purpose of this guide, we use a wildcard certificate for &quot;*.buzzword.marketing&quot; as opposed to &quot;jet.buzzword.marketing&quot;. Using a wildcard certificate has many practical advantages, but it only becomes mandatory if you intend to deploy multiple instances of Devolutions Gateway for high availability.</p>
+<pre><code class="lang-powershell">$CertPath = &quot;~\certs\!.buzzword.marketing&quot;
+Import-DGatewayCertificate -CertificateFile $(Join-Path $CertPath 'fullchain.pfx') -Password 'poshacme'
+</code></pre>
+<p>Let's reconfigure our protocol listeners, using 'https' rather than 'http' this time:</p>
+<pre><code class="lang-powershell">Set-DGatewayListeners @(
+    $(New-DGatewayListener 'https://*:7171' 'https://*:7171'),
+    $(New-DGatewayListener 'tcp://*:8181' 'tcp://*:8181')
+    )
+</code></pre>
+<p>the 'tcp' listener remains unchanged for now, but it may use the configured certificate for certain protocols. Do you recall the <code>Set-DGatewayHostname</code> command? Let's confirm that the configured hostname matches the imported certificate:</p>
+<pre><code class="lang-powershell">PS &gt; Get-DGatewayHostname
+jet.buzzword.marketing
+</code></pre>
+<p>Our certificate valid for &quot;*.buzzword.marketing&quot; matches the &quot;jet.buzzword.marketing&quot; hostname, so there won't be a certificate name mismatch.</p>
+<h2 id="external-exposure">External Exposure</h2>
+<p>The next step is to expose Devolutions Gateway externally on that domain name. If you have an Azure VM directly exposed to the internet, add the required inbound firewall exception. In other environments, this is done with a simple port forward in your router. If you use a reverse proxy with TLS offloading, we will cover the differences later.</p>
+<p>For this guide, I have configured an Azure VM directly exposed on the internet with a public IP. The &quot;buzzword.marketing&quot; domain was configured with an A record for 'jet' pointing to the Azure VM public IP.</p>
+<p>With this in mind, let's explain a little more the internal and external URLs:</p>
+<p><strong>InternalUrl</strong>: 'https://*:7171' expands to 'https://0.0.0.0:7171', which means &quot;listen locally in HTTPS on all network interfaces, on port 7171&quot;.</p>
+<p><strong>ExternalUrl</strong>: 'https://*:7171' expands to &quot;https://jet.buzzword.marketing:7171&quot; which means &quot;accessed externally in HTTPS, on 'jet.buzzword.marketing', port 7171&quot;</p>
+<p>In the end, this means traffic will flow in through &quot;https://jet.buzzword.marketing:7171&quot; and reach &quot;https://internal-hostname:7171&quot; on the internal network.</p>
+<p>Validate the configuration, making sure that everything matches, then start Devolutions Gateway again:</p>
+<pre><code class="lang-powershell">Start-DGateway
+</code></pre>
+<p>Cross your fingers, then try the Devolutions Gateway health check:</p>
+<pre><code class="lang-powershell">Invoke-WebRequest &quot;https://$(Get-DGatewayHostname):7171/health&quot;
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {74, 101, 116, 32...}
+RawContent        : HTTP/1.1 200 OK
+                    Content-Length: 59
+                    Date: Thu, 22 Oct 2020 20:39:58 GMT
+
+                    Jet instance &quot;jet.buzzword.marketing&quot; is alive and healthy.
+Headers           : {[Content-Length, 59], [Date, Thu, 22 Oct 2020 20:39:58 GMT]}
+RawContentLength  : 59
+</code></pre>
+<p>If the above command worked, then you have successfully configured Devolutions Gateway for external access with a valid certificate, congratulations! If not, review the previous steps to find what you missed.</p>
+<h2 id="reverse-proxy">Reverse Proxy</h2>
+<p>Instead of configuring Devolutions Gateway to handle HTTPS with a certificate, a reverse proxy can be put in front to handle and offload TLS entirely. This approach is preferred if multiple web applications need to be exposed through the same entry point. Reverse proxies like <a class="xref" href="../wayk/bastion/iis-deployment.html">IIS (with ARR)</a>, traefik, nginx and haproxy also come with advanced configuration options and better ways to handle certificate management.</p>
+<p>When using a wildcard certificate, it becomes easy to create an HTTPS listener bound to a specific domain and forward all traffic coming through this domain to Devolutions Gateway specifically. This technique is often used to make &quot;virtual hosts&quot; on the same TCP port (especially 443, the standard one) using TLS Server Name Indication (SNI).</p>
+<p>Assuming we have configured our reverse proxy to forward traffic coming in through &quot;https://jet.buzzword.marketing&quot; to our internal host where Devolutions Gateway is listening in HTTP on port 7171, the new configuration should look like this:</p>
+<pre><code class="lang-powershell">Set-DGatewayListeners @(
+    $(New-DGatewayListener 'http://*:7171' 'https://*'),
+    $(New-DGatewayListener 'tcp://*:8181' 'tcp://*:8181')
+    )
+</code></pre>
+<p>Notice that in this case, the internal URL is set to 'http', because it receives traffic in HTTP from the reverse proxy. The reverse proxy handles HTTPS, offloads TLS, then forwards the traffic in HTTP to Devolutions Gateway. Because of this, the network path taken between the reverse proxy and the target host on the local network should be restricted.</p>
+<p>You can also choose to offload TLS, yet forward traffic over HTTPS on the internal network with a second TLS connection, but this is definitely not a requirement. This type of configuration is generally more difficult to implement and comes with an additional performance cost. Before going that route, consider <em>not</em> doing TLS offloading in the first place, and letting Devolutions Gateway handle it instead with better performance.</p>
+<p>Last but not least, the TCP listener also needs a corresponding port forwarding configuration. In this case, TCP/8181 on jet.buzzword.marketing needs to be forward to TCP/8181 on the internal host where Devolutions Gateway is running. Don't forget to double check that the firewall has the proper inbound TCP port exception.</p>
+<h2 id="wayk-bastion">Wayk Bastion</h2>
+<p>If you use Wayk Bastion, you can now reconfigure it to point to your Devolutions Gateway:</p>
+<pre><code class="lang-powershell">Set-WaykBastionConfig -JetExternal $true -JetRelayUrl &quot;https://jet.buzzword.marketing:7171&quot;
+Restart-WaykBastion
+</code></pre>
+<h2 id="automatic-startup">Automatic Startup</h2>
+<p>If you launched Devolutions Gateway in a container, you don't need to do anything, as the default <a href="https://docs.docker.com/config/containers/start-containers-automatically/">Docker restart policy</a> is set to 'always'. This can be changed with the <code>Set-DGatewayConfig</code> command:</p>
+<pre><code class="lang-powershell">Set-DGatewayConfig -DockerRestartPolicy &quot;on-failure&quot;
+</code></pre>
+<p>Unlike &quot;always&quot;, the &quot;on-failure&quot; restart policy only restarts the container if it fails with a non-zero exit code.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

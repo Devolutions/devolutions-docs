@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72">
+    <defs>
+        <filter id="a" width="200%" height="200%">
+            <feOffset result="offOut" in="SourceAlpha" dy="2.2"/>
+            <feGaussianBlur result="blurOut" in="offOut" stdDeviation="1.5"/>
+            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0"/>
+            <feMerge>
+                <feMergeNode/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+    <path fill="#ffffff" filter="url(#a)" d="M63.26,63.264l-2.599,-31.833l2.073,-5.573l0,-16.922l-53.285,0l0,16.922l2.073,5.573l-2.599,31.833l54.337,0Z"/>
+    <path fill="#0068c3" d="M59.512,59.809l-46.841,-0l2.356,-28.863l-2.124,-5.71l0,-12.845l13.352,-0l0,5.818l2.614,-0l0,-5.818l13.898,-0l0,5.818l2.614,-0l0,-5.818l13.899,-0l0,12.846l-2.124,5.71l2.356,28.862Zm-40.923,-5.454l35.005,-0l-1.973,-24.173l2.205,-5.926l0,-6.409l-2.99,0l0,5.818l-13.523,-0l0,-5.818l-2.989,0l0,5.818l-13.524,-0l0,-5.818l-2.443,0l0,6.409l2.205,5.927l-1.973,24.172Z"/>
+</svg>

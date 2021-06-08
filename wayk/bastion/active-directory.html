@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Active Directory Integration | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Active Directory Integration | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="wayk-active-directory">
+<h1 id="active-directory-integration">Active Directory Integration</h1>
+
+<p>Wayk Bastion supports Active Directory integration, such that you can leverage your existing user accounts instead of creating new ones. When enabled, a list of users from a specified group will be automatically synchronized in Wayk Bastion to become the primary user directory. Domain users are validated using LDAP authentication behind the scenes. To get started, you need the following:</p>
+<ol>
+<li>A dedicated LDAP reader account for synchronization</li>
+<li>Secure LDAP (LDAPS) configured in Active Directory</li>
+</ol>
+<h2 id="ldap-reader-account-creation">LDAP reader account creation</h2>
+<p>The Wayk Bastion server does not support integrated Windows authentication, such that you cannot run it under a Windows identity without giving credentials for a domain account explicitly. Active Directory contains a lot of information publicly available to anyone with a valid account, including the list of users, user groups, and group membership information. Since Wayk Bastion only needs to <em>read</em> this information and nothing more, the ideal is to create a restricted user account.</p>
+<p><em>Do not</em> create a regular user account that is a member of one of the built-in groups, as it could potentially be used for more than just read from LDAP (network logon, local logon, etc).</p>
+<p>Create the <em>LDAP Readers</em> group in the global scope:</p>
+<p><img src="../../images/ldap_group_readers_new.png" alt="LDAP Readers Group"></p>
+<p>Create the <em>LDAP Reader</em> user:</p>
+<p><img src="../../images/ldap_user_reader_new.png" alt="LDAP Reader User"></p>
+<p>Use a long generated password, and enable &quot;Password never expires&quot;:</p>
+<p><img src="../../images/ldap_user_reader_password.png" alt="LDAP Reader User Password"></p>
+<p>Change the primary group of the <em>ldap-reader</em> account to the <em>LDAP Readers</em> group, then remove all other group memberships:</p>
+<pre><code class="lang-powershell">$LdapReader = Get-ADUser &quot;ldap-reader&quot;
+$LdapReaders = Get-ADGroup &quot;LDAP Readers&quot; -Properties PrimaryGroupToken
+
+Add-ADGroupMember -Identity $LdapReaders.SID -Members $LdapReader.SID
+Set-ADUser $LdapReader -Replace @{ PrimaryGroupId = $LdapReaders.PrimaryGroupToken }
+
+Get-ADPrincipalGroupMembership ldap-reader | `
+	Where-Object { $_.SID -ne $LdapReaders.SID } | `
+	Foreach-Object { Remove-ADGroupMember -Identity $_.SID -Members $LdapReader.SID }
+</code></pre>
+<p>The <em>ldap-reader</em> account should now be only a member of the <em>LDAP Readers</em> group, excluding the built-in <em>Domain Users</em> group:</p>
+<p><img src="../../images/ldap_user_reader_member_of.png" alt="LDAP Reader User - Member Of"></p>
+<p>Save the username for the account in UPN format (ldap-reader@ad.it-help.ninja) and the associated password for later.</p>
+<h2 id="configuring-secure-ldap-ldaps">Configuring Secure LDAP (LDAPS)</h2>
+<p>Wayk Bastion requires Secure LDAP (LDAPS) to be enabled in Active Directory to secure communication with the domain controller. While insecure LDAP traffic is common in a Windows domain, it is becoming increasingly difficult to support due to recent changes in <a href="https://support.microsoft.com/en-us/topic/2020-ldap-channel-binding-and-ldap-signing-requirements-for-windows-ef185fb8-00f7-167d-744c-f299a66fc00a">LDAP channel binding and signing requirements</a>. Requiring LDAPS is the safest and simplest option, with the side benefit of promoting Active Directory best practices.</p>
+<p><a href="https://astrix.co.uk/news/2020/1/31/how-to-set-up-secure-ldap-for-active-directory">How to set up Secure LDAP for Active Directory</a> is an excellent step-by-step guide showing the different ways Secure LDAP can be configured properly.</p>
+<p>The most common choice for the certificate authority is Active Directory Certificate Services (AD CS), because it is tightly integrated in Active Directory . However, it is also possible to use a certificate from a public certificate authority like Let's Encrypt.</p>
+<p>As a last resort, you can generate a self-signed certificate: this won't work for LDAPS traffic with domain-joined machines, but it be sufficient for Wayk Bastion integration with certificate validation disabled. You can always get started this way, then configure LDAPS properly later. Run the following code snippet to generate the self-signed certificate, import it into the NTDS certificate store, then tell the LDAP server to load:</p>
+<pre><code class="lang-powershell">$DomainName = &quot;$Env:UserDnsDomain&quot;.ToLower()
+$DnsName = $Env:ComputerName + &quot;.&quot; + $DomainName
+$Certificate = New-SelfSignedCertificate -DnsName $DnsName -CertStoreLocation &quot;cert:\LocalMachine\My&quot;
+$CertificateThumbprint = $Certificate.Thumbprint
+
+$LocalCertStore = 'HKLM:/Software/Microsoft/SystemCertificates/My/Certificates'
+$NtdsCertStore = 'HKLM:/Software/Microsoft/Cryptography/Services/NTDS/SystemCertificates/My/Certificates'
+
+if (-Not (Test-Path $NtdsCertStore)) {
+    New-Item $NtdsCertStore -Force
+}
+
+Copy-Item -Path &quot;$LocalCertStore/$CertificateThumbprint&quot; -Destination $NtdsCertStore
+
+$dse = [adsi]'LDAP://localhost/rootDSE'
+[void]$dse.Properties['renewServerCertificate'].Add(1)
+$dse.CommitChanges()
+</code></pre>
+<p>The domain controller should now respond to TLS handshakes on port 636:</p>
+<pre><code class="lang-powershell">openssl s_client -connect IT-HELP-DC.ad.it-help.ninja:636 -showcerts
+</code></pre>
+<p>If you test connectivity with ldp.exe, it will be difficult to tell if LDAPS is enabled: there is no difference between a connection error and a certificate validation error in the user interface, which is why it is easiest to test with the OpenSSL command-line tool.</p>
+<h2 id="wayk-account-provider">Wayk Account Provider</h2>
+<p>In <strong>Settings</strong>, go to the <strong>Account Provider</strong> section, then select <strong>Active Directory</strong> as the LDAP server type:</p>
+<p><img src="../../images/wayk_account_providers.png" alt="Wayk Account Providers"></p>
+<p>Fill the form with data similar to this:</p>
+<ul>
+<li>Server URL: ldaps://IT-HELP-DC.ad.it-help.ninja</li>
+<li>User Group: Domain Users</li>
+<li>Username: ldap-reader@ad.it-help.ninja</li>
+<li>Password: (ldap-reader password)</li>
+</ul>
+<p><img src="../../images/wayk_active_directory_validation_disabled.png" alt="Wayk Active Directory - Validation Disabled"></p>
+<p>Click the <strong>Test LDAP Configuration</strong> button to validate the configuration. If it worked, click the <strong>Save</strong> button at the top right of the screen.</p>
+<p>If you have a proper certificate authority in place, with a certificate that should validate automatically for the domain controller (don't forget the DNS name must match the one in the certificate!), then you can go one step further and enable certificate validation:</p>
+<p><img src="../../images/wayk_active_directory_validation_enabled.png" alt="Wayk Active Directory - Validation Enabled"></p>
+<p>For private certificate authorities, you need to import the certificate authority certificate in PEM format into the <strong>Trusted Root CA</strong> field for automatic validation to work.</p>
+<p>If validation still fails, make sure that the name in the certificate matches the hostname used in the <strong>Server URL</strong> field. If you don't have DNS properly configured from the machine where Wayk Bastion is hosted, you can always manually specify the IP address of the domain controller in the <strong>Server IP</strong> field while using the correct hostname in the <strong>Server URL</strong> field. However, some LDAPS certificates encode the IP address, causing validation issues when this trick is used.</p>
+<p>You can now go in <strong>Users</strong>, then <strong>All Users</strong>, and you should now see the list of users synchronized from Active Directory:</p>
+<p><img src="../../images/wayk_active_directory_users.png" alt="Wayk Active Directory Users"></p>
+<p>The users synchronized in Wayk Bastion are all members of the user group previously configured. While the built-in Domain Users group may be sufficient, it unfortunately tends to contain a few undesirable accounts (krbtgt, sshd, etc). To avoid this issue, create a dedicated &quot;Wayk Users&quot; group in Active Directory and add all the user groups and users in it that should be synchronized in Wayk Bastion.</p>
+<p>It should now be possible to create new user groups from this flat list of users. There is currently no advanced synchronization of user groups from Active Directory with user groups in Wayk Bastion.</p>
+<h2 id="wayk-user-login">Wayk User Login</h2>
+<p>To login with one of the Active Directory users, enter the username in UPN format (dford@ad.it-help.ninja) and the same password normally used for Windows:</p>
+<p><img src="../../images/wayk_active_directory_user_login.png" alt="Wayk Active Directory User Login"></p>
+<p>If login fails, make sure you that the Active Directory users have been added to user groups in Wayk Bastion with sufficient permissions to access the web interface.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

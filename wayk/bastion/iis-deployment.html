@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K2QBJ5');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>IIS Deployment | docs.devolutions.net </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="IIS Deployment | docs.devolutions.net ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="iis-deployment">
+<h1 id="iis-deployment">IIS Deployment</h1>
+
+<p>Deploying Wayk Bastion behind IIS is possible with the URL Rewrite and Application Request Routing (ARR) modules. IIS is not necessarily the recommended deployment option for Wayk Bastion (<a href="https://containo.us/traefik/">traefik</a>, <a href="https://www.nginx.com/">nginx</a> and <a href="http://www.haproxy.org/">haproxy</a> are worthy alternatives). However, if you are comfortable with IIS or if you need it to deploy additional applications that require IIS within the same server, then it should be a good choice.</p>
+<h2 id="iis-feature-installation">IIS Feature Installation</h2>
+<p>Open a PowerShell prompt and install the base IIS features required (IIS server + WebSocket support + management tools)</p>
+<pre><code>$Features = @(
+    'Web-Server',
+    'Web-WebSockets',
+    'Web-Mgmt-Tools')
+
+foreach ($Feature in $Features) {
+    Install-WindowsFeature -Name $Feature
+}
+</code></pre>
+<p>You can install additional features, but the most important not to forget is the WebSocket protocol support:</p>
+<p><img src="../../images/iis_install_features.png" alt="IIS feature installation"></p>
+<p>As for the IIS graphical management tools, they are recommended but not required, and they are absent from Windows Server Core.</p>
+<h2 id="iis-module-installation">IIS Module Installation</h2>
+<p>The two IIS modules we need (URL Rewrite and Application Request Routing) are not available as IIS features, and need to be installed using the <a href="https://www.microsoft.com/web/downloads/platform.aspx">Web Platform Installer</a>.</p>
+<p>Once you have the Web Platform Installer, install (in order) the URL Rewrite and the Application Request Routing modules:</p>
+<p><a href="https://www.iis.net/downloads/microsoft/url-rewrite">IIS URL Rewrite Module</a></p>
+<p><img src="../../images/iis_url_rewrite_module.png" alt="IIS URL Rewrite Module"></p>
+<p><a href="https://www.iis.net/downloads/microsoft/application-request-routing">IIS Application Request Routing Module</a></p>
+<p><img src="../../images/iis_arr_module.png" alt="IIS ARR Module"></p>
+<p>Alternatively, you can install the modules using <a href="https://chocolatey.org/install">chocolatey</a>:</p>
+<pre><code>choco install urlrewrite -y
+choco install iis-arr -y
+</code></pre>
+<p>However, the IIS URL Rewrite and Application Request Routing (ARR) modules are difficult to install automatically, so results may vary. The GUI installation is the most guaranteed to work.</p>
+<h2 id="iis-global-configuration">IIS Global Configuration</h2>
+<p>By default, IIS does not preserve the HTTP Host header when proxying requests, which breaks Wayk Bastion. The <em>preserveHostHeader</em> setting in the <em>system.webServer/proxy</em> section of the configuration needs to be set to <em>true</em>:</p>
+<p><img src="../../images/iis_preserve_host_header.png" alt="IIS Preserve Host Header"></p>
+<p>Alternatively, the same modification can be done at the command line:</p>
+<pre><code>%windir%\system32\inetsrv\appcmd.exe set config -section:system.webServer/proxy -preserveHostHeader:true /commit:apphost
+</code></pre>
+<p>Next, set the <strong>useOriginalURLEncoding</strong> setting in the <em>system.WebServer/rewrite/globalRules</em> section to <em>false</em>:</p>
+<p><img src="../../images/iis_use_original_url_encoding.png" alt="IIS use original URL encoding"></p>
+<p>The same modification can also be done at the command line:</p>
+<pre><code>%windir%\system32\inetsrv\appcmd.exe set config -section:system.WebServer/rewrite/globalRules -useOriginalURLEncoding:false /commit:apphost
+</code></pre>
+<p>This change is necessary to obtain an <a href="https://blogs.iis.net/iisteam/url-rewrite-v2-1">unmodified UNENCODED_URL variable in URL rewrite rules</a>.</p>
+<p>Finally, if you do not wish to use port 443 (standard https), you will also need to set the <em>reverseRewriteHostInResponseHeaders</em> setting in the <em>system.webServer/proxy</em> section to false:</p>
+<p><img src="../../images/iis_reverse_rewrite_host_in_response_headers.png" alt="IIS Reverse Rewrite Host In Response Headers"></p>
+<p>Alternatively, the same modification can be done at the command line:</p>
+<pre><code>%windir%\system32\inetsrv\appcmd.exe set config -section:system.webServer/proxy -reverseRewriteHostInResponseHeaders:true /commit:apphost
+</code></pre>
+<h2 id="iis-site-configuration">IIS Site Configuration</h2>
+<p>In IIS manager, right-click &quot;Sites&quot; and select &quot;Add Website..&quot;</p>
+<p><img src="../../images/iis_add_website.png" alt="IIS Add Website"></p>
+<p>In the &quot;Add Website&quot; dialog, enter a site name, physical path and host name. Make sure that the host name you choose is the final one you expect to use with https and matches your certificate name.</p>
+<p>As for the physical path on disk, it is not going to be used, but IIS requires you to have one. I have created &quot;C:\inetpub\bastion&quot;, but you can use any path you want.</p>
+<p>Click OK to create the new website, then select it from the list of sites on the left.</p>
+<p><img src="../../images/iis_create_new_site.png" alt="IIS Create New Site"></p>
+<p>With the correct site selected on the left, find the &quot;URL Rewrite&quot; feature and double-click to open it:</p>
+<p><img src="../../images/iis_url_rewrite_open.png" alt="IIS URL Rewrite - Open"></p>
+<p>Under &quot;Actions&quot; at the top right, click &quot;Add Rule(s)…&quot;. In the &quot;Add Rule(s)&quot; dialog, select &quot;Reverse Proxy&quot; and then click OK.</p>
+<p><img src="../../images/iis_url_rewrite_add_rule.png" alt="IIS URL Rewrite - Add Rule"></p>
+<p>While creating the new reverse proxy rule, you will likely be asked to enable proxy functionality (Application Request Routing). Click OK to enable it:</p>
+<p><img src="../../images/iis_enable_arr.png" alt="IIS Enable ARR"></p>
+<p>Upon creation of the first reverse proxy rule, you will also be prompted for the destination server. Just enter 'localhost' for now and click OK:</p>
+<p><img src="../../images/iis_add_reverse_proxy_rules.png" alt="IIS Add Reverse Proxy Rules"></p>
+<p>You should now see a single rule called &quot;ReverseProxyInboundRule1&quot; in the list. Double-click on it to open the &quot;Edit Inbound Rule&quot; view.</p>
+<p>In the &quot;Match URL&quot; section, leave the &quot;(.*)&quot; default pattern value. Go to the &quot;Conditions&quot; section and then click &quot;Add…&quot; to create a new condition:</p>
+<p><img src="../../images/iis_url_rewrite_unencoded_url_condition.png" alt="IIS URL Rewrite - Unencoded URL Condition"></p>
+<p>In the <em>Action</em> section, select the &quot;Rewrite&quot; action type, and enter &quot;http://localhost:4000/{C:1}&quot; in the Rewrite URL field. Make sure to uncheck &quot;Append query string&quot; as the query string is already containing within '{C:1}' capture group (UNENCODED_URL variable).</p>
+<p>The final result should look like this:</p>
+<p><img src="../../images/iis_url_rewrite_edit_inbound_rule.png" alt="IIS URL Rewrite - Edit Inbound Rule"></p>
+<p>This URL rewrite rule will now forward incoming traffic to http://localhost:4000 with proper handling of the URL query parameter encoding. If you host Wayk Bastion on a different host and port, simply change the destination URL.</p>
+<p>Here is the resulting web.config file containing the URL rewrite rule for reference:</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+    &lt;system.webServer&gt;
+        &lt;rewrite&gt;
+            &lt;rules&gt;
+                &lt;clear /&gt;
+                &lt;rule name=&quot;ReverseProxyInboundRule1&quot; patternSyntax=&quot;ECMAScript&quot; stopProcessing=&quot;true&quot;&gt;
+                    &lt;match url=&quot;(.*)&quot; /&gt;
+                    &lt;conditions logicalGrouping=&quot;MatchAll&quot; trackAllCaptures=&quot;false&quot;&gt;
+                        &lt;add input=&quot;{UNENCODED_URL}&quot; pattern=&quot;/(.*)&quot; /&gt;
+                    &lt;/conditions&gt;
+                    &lt;action type=&quot;Rewrite&quot; url=&quot;http://localhost:4000/{C:1}&quot; appendQueryString=&quot;false&quot; logRewrittenUrl=&quot;true&quot; /&gt;
+                &lt;/rule&gt;
+            &lt;/rules&gt;
+        &lt;/rewrite&gt;
+    &lt;/system.webServer&gt;
+&lt;/configuration&gt;
+</code></pre>
+<h2 id="iis-certificate-configuration">IIS Certificate Configuration</h2>
+<p>While obtaining a proper server certificate is outside of the scope of this guide, you still need to import it in IIS before configuring an HTTPS site binding for your site.</p>
+<p>Valid certificates from letsencrypt can be obtained using <a href="https://www.win-acme.com/">win-acme</a> and following instructions from <a href="https://miketabor.com/how-to-install-a-lets-encrypt-ssl-cert-on-microsoft-iis/">this blog post</a>. Alternatively, we recommend giving <a href="https://github.com/rmbolger/Posh-ACME">Posh-ACME</a> a try.</p>
+<p>To import your certificate, locate the &quot;Server Certificates&quot; feature and double-click on it to open it:</p>
+<p><img src="../../images/iis_server_certificates.png" alt="IIS Server Certificates"></p>
+<p>At the top right, under &quot;Actions&quot;, click &quot;Import…&quot;.</p>
+<p><img src="../../images/iis_import_certificate.png" alt="IIS - Import Certificate"></p>
+<p>In the &quot;Import Certificate&quot; dialog, select your certificate in .pfx file, enter the password and then click OK.</p>
+<p>You can now create a new HTTPS site binding. Under &quot;Sites&quot;, right-click your site and then select &quot;Edit Bindings…&quot;:</p>
+<p><img src="../../images/iis_site_edit_bindings.png" alt="IIS Site - Edit Bindings"></p>
+<p>In the &quot;Site Bindings&quot; dialog, click &quot;Add…&quot;:</p>
+<p><img src="../../images/iis_https_site_binding.png" alt="IIS HTTPS site binding"></p>
+<p>Select &quot;https&quot; as the binding type, and enter your IIS site host name. Check &quot;Require Server Name Indication&quot; and &quot;Disable HTTP/2&quot;. Click &quot;Select…&quot;, then select the server certificate that was previously imported. Click OK to create the new site binding.</p>
+<p>Last but not least, click on the &quot;SSL Settings&quot; feature of your site and make sure that &quot;Require SSL&quot; is unchecked, and that &quot;Client certificates&quot; is set to &quot;Ignore&quot;:</p>
+<p><img src="../../images/iis_site_ssl_settings.png" alt="IIS HTTPS site binding"></p>
+<p>Those SSL settings are sometimes confused with the HTTPS server certificate configuration. If you enable it by mistake, you may see a certificate prompt when loading the website in the browser, as it is meant to enforce client certificate authentication.</p>
+<p>That’s it! Your IIS site is now ready. Review your Wayk Bastion configuration ListenerUrl and ExternalUrl parameters to make sure they correspond to your current configuration:</p>
+<pre><code>Set-WaykBastionConfig -ListenerUrl 'http://localhost:4000' -ExternalUrl 'https://bastion.now-it.works'
+</code></pre>
+<p>Then start Wayk Bastion, and you should now be able to access it through your IIS site. If it doesn’t work the first time, try running <em>iisreset</em> once to force the configuration changes made earlier.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            <span>Copyright © Devolutions Inc.
+            
+          </span></div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>
